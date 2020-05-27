@@ -1,1 +1,1 @@
-# covid-desktop
+# covid-gui
