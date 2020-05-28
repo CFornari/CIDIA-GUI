@@ -2,13 +2,12 @@
 #define MAINWINDOW_H
 
 #include "MainDisplay.h"
+//#include "ThumbnailListWidgetInterface.h"
 
 #include <mitkStandaloneDataStorage.h>
 #include <mitkImage.h>
 
 #include <QMainWindow>
-
-class ThumbnailListWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -27,12 +26,14 @@ private:
 	void openFileDialog();
 	void loadImage(const QString filePath);
 
+//	bool loadPlugin();
+
 private:
 	mitk::StandaloneDataStorage::Pointer m_DataStorage;
 	mitk::Image::Pointer m_FirstImage;
 
 	QMenu *m_FileMenu;
 	MainDisplay *m_MainDisplay;
-	ThumbnailListWidget *m_ThumbnailListWidget;
+//	ThumbnailListWidgetInterface *m_ThumbnailListWidget;
 };
 #endif // MAINWINDOW_H

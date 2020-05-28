@@ -1,7 +1,8 @@
 #include "MainWindow.h"
+#include "Concept.h"
 
-#include "framelesswindow.h"
 #include "DarkStyle.h"
+#include "framelesswindow.h"
 
 #include <QmitkRegisterClasses.h>
 //#include <itksys/SystemTools.hxx>
@@ -33,11 +34,15 @@ int main(int argc, char *argv[])
 	QmitkRegisterClasses();
 
 	FramelessWindow framelessWindow;
-	framelessWindow.setWindowTitle("test title");
+	framelessWindow.setWindowTitle("covid-gui");
 //	framelessWindow.setWindowIcon(a.style()->standardIcon(QStyle::SP_DesktopIcon));
 
-	MainWindow *mainWindow = new MainWindow;
-	framelessWindow.setContent(mainWindow);
+//	MainWindow *mainWindow = new MainWindow;
+//	framelessWindow.setContent(mainWindow);
+
+	Concept *conceptWindow = new Concept;
+	framelessWindow.setContent(conceptWindow);
+
 	framelessWindow.show();
 //	mainWindow->show();
 	return a.exec();

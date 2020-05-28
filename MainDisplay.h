@@ -11,8 +11,9 @@ class MainDisplay : public QWidget
 {
 	Q_OBJECT
 public:
-	explicit MainDisplay(QWidget *parent,
-											 mitk::StandaloneDataStorage::Pointer dataStorage);
+	explicit MainDisplay(QWidget *parent);
+
+	void setDataStorage(mitk::StandaloneDataStorage::Pointer dataStorage);
 
 protected:
 	QmitkStdMultiWidget *m_MultiWidget ;

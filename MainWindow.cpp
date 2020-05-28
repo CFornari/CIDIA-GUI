@@ -1,8 +1,6 @@
 #include "MainWindow.h"
 
-#include "ThumbnailListWidget.h"
 //#include "SliceAnimationControls.h"
-
 #include "Utils.h"
 
 // Qmitk
@@ -25,16 +23,16 @@
 
 #include <QDebug>
 
-
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent),
 		m_DataStorage(mitk::StandaloneDataStorage::New())
 //		m_FirstImage(mitk::Image::New())
 {
+//	loadPlugin();
 	setupMenus();
 	setupLayout();
 
-	connect(this, &MainWindow::fileLoaded, m_ThumbnailListWidget, &ThumbnailListWidget::loadPictures);
+//	connect(this, &MainWindow::fileLoaded, m_ThumbnailListWidget, &ThumbnailListWidgetInterface::loadPictures);
 }
 
 MainWindow::~MainWindow()
@@ -52,10 +50,10 @@ void MainWindow::setupLayout()
 	QSplitter *splitter = new QSplitter(this);
 	hLayout->addWidget(splitter);
 
-	m_ThumbnailListWidget = new ThumbnailListWidget(splitter);
-	m_MainDisplay = new MainDisplay(splitter, m_DataStorage);
+//	m_ThumbnailListWidget = new ThumbnailListWidgetInterface(splitter);
+	m_MainDisplay = new MainDisplay(splitter);
 //	SliceAnimationControls *sliceAnimationWidget = new SliceAnimationControls(splitter, m_DataStorage, m_FirstImage);
-	splitter->addWidget(m_ThumbnailListWidget);
+//	splitter->addWidget(m_ThumbnailListWidget);
 	splitter->addWidget(m_MainDisplay);
 
 //	m_FirstImage->GetSlicedGeometry()->GetSlices();
@@ -132,3 +130,29 @@ void MainWindow::loadImage(const QString filePath)
 	//	qDebug() << QmitkIOUtil::Save(m_FirstImage, QString("image.png"), QString("~/"), this, false);
 }
 
+//bool MainWindow::loadPlugin()
+//{
+//		QDir pluginsDir(qApp->applicationDirPath());
+//#if defined(Q_OS_WIN)
+//		if (pluginsDir.dirName().toLower() == "debug" || pluginsDir.dirName().toLower() == "release")
+//				pluginsDir.cdUp();
+//#elif defined(Q_OS_MAC)
+//		if (pluginsDir.dirName() == "MacOS") {
+//				pluginsDir.cdUp();
+//				pluginsDir.cdUp();
+//				pluginsDir.cdUp();
+//		}
+//#endif
+//		pluginsDir.cd("plugins");
+//		foreach (QString fileName, pluginsDir.entryList(QDir::Files)) {
+//				QPluginLoader pluginLoader(pluginsDir.absoluteFilePath(fileName));
+//				QObject *plugin = pluginLoader.instance();
+//				if (plugin) {
+//						m_ThumbnailListWidget = qobject_cast<ThumbnailListWidgetInterface *>(plugin);
+//						if (m_ThumbnailListWidget)
+//								return true;
+//				}
+//		}
+
+//		return false;
+//}

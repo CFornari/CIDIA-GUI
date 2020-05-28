@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resources/ImageNavigation_48.png</file>
+        <file>resources/image_navigator.svg</file>
+        <file>resources/QmitkImageNavigatorView.qrc</file>
+        <file>resources/Slider_48.png</file>
+    </qresource>
+</RCC>
