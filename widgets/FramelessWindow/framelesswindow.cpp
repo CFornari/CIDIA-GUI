@@ -26,7 +26,10 @@ FramelessWindow::FramelessWindow(QWidget *parent)
       m_bDragTop(false),
       m_bDragLeft(false),
       m_bDragRight(false),
-      m_bDragBottom(false) {
+			m_bDragBottom(false)
+{
+	Q_INIT_RESOURCE(framelesswindow);
+
 //	setWindowFlags(Qt::FramelessWindowHint | Qt::WindowSystemMenuHint);
 	setWindowFlags(this->windowFlags() | Qt::Window | Qt::FramelessWindowHint);
 

@@ -13,7 +13,9 @@
 
 #include "DarkStyle.h"
 
-DarkStyle::DarkStyle() : DarkStyle(styleBase()) {}
+DarkStyle::DarkStyle() : DarkStyle(styleBase()) {
+	Q_INIT_RESOURCE(darkstyle);
+}
 
 DarkStyle::DarkStyle(QStyle *style) : QProxyStyle(style) {}
 

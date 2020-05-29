@@ -44,7 +44,7 @@ Concept::Concept(QWidget *parent) :
 {
 	m_ui->setupUi(this);
 
-//	m_ui->leftDisplay->setDataStorage(m_DataStorage);
+	m_ui->leftDisplay->setDataStorage(m_DataStorage);
 	m_ui->centerDisplay->setDataStorage(m_DataStorage);
 
 	QChartView *chartView;
