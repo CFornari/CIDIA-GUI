@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.12.1, 2020-05-29T02:15:49. -->
+<!-- Written by QtCreator 4.12.1, 2020-05-29T02:37:50. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -210,7 +210,7 @@
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
     <value type="QString" key="RunConfiguration.WorkingDirectory"></value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/tmp/QtCreator-GVtuBA/qtc-cmake-XqzxZOZB</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/usr/mitk-development/covid-gui/build/build-covid-gui-Desktop_Qt_5_12_8_GCC_64bit-Debug</value>
    </valuemap>
    <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
   </valuemap>
