@@ -144,7 +144,7 @@ int main(int argc, char *argv[])
   renderWindow.show();
   renderWindow.resize(256, 256);
 
-  mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+	mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 
   return qtapplication.exec();
 }

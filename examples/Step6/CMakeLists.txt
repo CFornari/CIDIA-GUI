@@ -22,11 +22,11 @@ set(cpp_files
   Step6RegionGrowing2.cpp
   Step6RegionGrowing3.cpp
   Step6main.cpp
-)
+	)
 
 set(header_files
   Step6.h
-)
+	)
 
 add_executable(${PROJECT_NAME} ${cpp_files})
 target_link_libraries(  ${PROJECT_NAME}
