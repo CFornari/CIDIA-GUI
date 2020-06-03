@@ -1,11 +1,12 @@
 #ifndef WMULTI_H
 #define WMULTI_H
 
-#include "QmitkStdMultiWidget.h"
+#include <QWidget>
 
 #include <mitkStandaloneDataStorage.h>
 
-#include <QWidget>
+class QmitkStdMultiWidget;
+class QmitkRenderWindow;
 
 class wMulti : public QWidget
 {
@@ -14,8 +15,7 @@ public:
 	explicit wMulti(QWidget *parent = nullptr);
 
 	void setData(mitk::StandaloneDataStorage::Pointer ds);
-	QmitkRenderWindow* get3DRenderWindow();
-
+	QmitkStdMultiWidget* getRenderWindow();
 protected:
 	QmitkStdMultiWidget *m_MultiWidget ;
 	mitk::StandaloneDataStorage::Pointer m_DataStorage;

@@ -1,6 +1,6 @@
 #include "w3D.h"
 
-#include "QmitkRenderWindow.h"
+#include <QmitkRenderWindow.h>
 
 #include <mitkIOUtil.h>
 #include <mitkProperties.h>
@@ -25,8 +25,7 @@ w3D::w3D(QWidget *parent)
 	hLayout->addWidget(m_RenderWindow);
 }
 
-void w3D::setData(mitk::StandaloneDataStorage::Pointer ds,
-									mitk::StandaloneDataStorage::SetOfObjects::Pointer dataNodes)
+void w3D::setTrasnferFunction(mitk::StandaloneDataStorage::SetOfObjects::Pointer dataNodes)
 {
 	mitk::DataNode::Pointer node = dataNodes->at(0);
 
@@ -50,7 +49,15 @@ void w3D::setData(mitk::StandaloneDataStorage::Pointer ds,
 
 		node->SetProperty("TransferFunction", mitk::TransferFunctionProperty::New(tf.GetPointer()));
 	}
+}
 
+void w3D::setRenderWindow(QmitkRenderWindow* win)
+{
+	m_RenderWindow = win;
+}
+
+void w3D::init(mitk::StandaloneDataStorage::Pointer ds)
+{
 	// Tell the renderwindow which (part of) the datastorage to render
 	m_RenderWindow->GetRenderer()->SetDataStorage(ds);
 

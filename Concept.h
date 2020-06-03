@@ -48,7 +48,7 @@ private:
 	int m_valueCount;
 	QList<QChartView *> m_charts;
 	DataTable m_dataTable;
-	Ui::Concept *m_ui;
+	Ui::Concept *ui;
 
 	mitk::StandaloneDataStorage::Pointer m_DataStorage;
 };

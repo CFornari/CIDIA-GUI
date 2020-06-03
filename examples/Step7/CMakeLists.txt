@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.17 FATAL_ERROR)
 
 set (CMAKE_AUTOMOC ON)
 
-project(step6)
+project(Step7)
 
 set(MITK_SUPERBUILD_DIR "/usr/mitk-build")
 set(QT_DIR "/home/pop_os")
@@ -17,19 +17,20 @@ find_package(MITK CONFIG REQUIRED)
 find_package(OpenMP REQUIRED)
 
 set(cpp_files
-  Step6.cpp
-  Step6RegionGrowing1.cpp
-  Step6RegionGrowing2.cpp
-  Step6RegionGrowing3.cpp
-  Step6main.cpp
-	)
+		Step7.cpp
+		Step7main.cpp
+		../Step6/Step6RegionGrowing1.cpp
+		../Step6/Step6RegionGrowing2.cpp
+		../Step6/Step6RegionGrowing3.cpp
+		../Step6/Step6.cpp
+		)
 
 set(header_files
-  Step6.h
-	)
+		../Step6/Step6.h
+		Step7.h
+		)
 
-add_executable(${PROJECT_NAME} ${cpp_files})
-target_link_libraries(  ${PROJECT_NAME}
-                        MitkCore 
-												MitkQtWidgetsExt
-											)
+add_executable(${PROJECT_NAME} ${cpp_files} ${header_files})
+target_link_libraries(${PROJECT_NAME}
+		MitkCore
+		MitkQtWidgetsExt)

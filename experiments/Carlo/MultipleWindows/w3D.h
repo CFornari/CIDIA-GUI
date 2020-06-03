@@ -6,6 +6,7 @@
 #include <QWidget>
 
 class QmitkRenderWindow;
+class vtkRenderWindow;
 
 class w3D : public QWidget
 {
@@ -13,8 +14,10 @@ class w3D : public QWidget
 public:
 	explicit w3D(QWidget *parent = nullptr);
 
-	void setData(mitk::StandaloneDataStorage::Pointer ds,
-							 mitk::StandaloneDataStorage::SetOfObjects::Pointer dataNodes);
+	void setTrasnferFunction(mitk::StandaloneDataStorage::SetOfObjects::Pointer dataNodes);
+	void setRenderWindow(QmitkRenderWindow* win);
+	void init(mitk::StandaloneDataStorage::Pointer ds);
+	void setTest();
 
 private:
 	QmitkRenderWindow *m_RenderWindow;

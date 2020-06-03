@@ -31,6 +31,7 @@
 #include <QFileDialog>
 
 #include <QmitkRenderingManager.h>
+#include <QmitkRenderWindow.h>
 #include <QmitkIOUtil.h>
 
 Concept::Concept(QWidget *parent) :
@@ -40,12 +41,12 @@ Concept::Concept(QWidget *parent) :
 	m_valueCount(7),
 	m_dataTable(generateRandomData(m_listCount, m_valueMax, m_valueCount)),
 	m_DataStorage(mitk::StandaloneDataStorage::New()),
-	m_ui(new Ui::Concept)
+	ui(new Ui::Concept)
 {
-	m_ui->setupUi(this);
+	ui->setupUi(this);
 
-	m_ui->leftDisplay->setDataStorage(m_DataStorage);
-	m_ui->centerDisplay->setDataStorage(m_DataStorage);
+	ui->centerDisplay->setDataStorage(m_DataStorage);
+	ui->leftDisplay->layout()->addWidget(ui->centerDisplay->get3DRenderWindow());
 
 	QChartView *chartView;
 
@@ -54,15 +55,15 @@ Concept::Concept(QWidget *parent) :
 	//	m_charts << chartView;
 
 	chartView = new QChartView(createBarChart(m_valueCount));
-	m_ui->chartTab->layout()->addWidget(chartView);
+	ui->chartTab->layout()->addWidget(chartView);
 	m_charts << chartView;
 
 	chartView = new QChartView(createSplineChart());
-	m_ui->chartTab->layout()->addWidget(chartView);
+	ui->chartTab->layout()->addWidget(chartView);
 	m_charts << chartView;
 
 	chartView = new QChartView(createScatterChart());
-	m_ui->chartTab->layout()->addWidget(chartView);
+	ui->chartTab->layout()->addWidget(chartView);
 	m_charts << chartView;
 
 	const auto charts = m_charts;
@@ -76,7 +77,7 @@ Concept::Concept(QWidget *parent) :
 
 Concept::~Concept()
 {
-	delete m_ui;
+	delete ui;
 }
 
 DataTable Concept::generateRandomData(int listCount, int valueMax, int valueCount) const

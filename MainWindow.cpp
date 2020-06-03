@@ -129,30 +129,3 @@ void MainWindow::loadImage(const QString filePath)
 	//	m_FirstImage->GetSlicedGeometry()->GetSliceNavigationController()->GetSlice()->SetPos(0);
 	//	qDebug() << QmitkIOUtil::Save(m_FirstImage, QString("image.png"), QString("~/"), this, false);
 }
-
-//bool MainWindow::loadPlugin()
-//{
-//		QDir pluginsDir(qApp->applicationDirPath());
-//#if defined(Q_OS_WIN)
-//		if (pluginsDir.dirName().toLower() == "debug" || pluginsDir.dirName().toLower() == "release")
-//				pluginsDir.cdUp();
-//#elif defined(Q_OS_MAC)
-//		if (pluginsDir.dirName() == "MacOS") {
-//				pluginsDir.cdUp();
-//				pluginsDir.cdUp();
-//				pluginsDir.cdUp();
-//		}
-//#endif
-//		pluginsDir.cd("plugins");
-//		foreach (QString fileName, pluginsDir.entryList(QDir::Files)) {
-//				QPluginLoader pluginLoader(pluginsDir.absoluteFilePath(fileName));
-//				QObject *plugin = pluginLoader.instance();
-//				if (plugin) {
-//						m_ThumbnailListWidget = qobject_cast<ThumbnailListWidgetInterface *>(plugin);
-//						if (m_ThumbnailListWidget)
-//								return true;
-//				}
-//		}
-
-//		return false;
-//}

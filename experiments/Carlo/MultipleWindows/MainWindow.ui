@@ -10,19 +10,26 @@
     <height>600</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="w3D" name="widget" native="true">
+     <widget class="QWidget" name="widget" native="true">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
         <horstretch>1</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2"/>
      </widget>
     </item>
     <item>
@@ -39,12 +46,6 @@
   </widget>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>w3D</class>
-   <extends>QWidget</extends>
-   <header>w3D.h</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>wMulti</class>
    <extends>QWidget</extends>

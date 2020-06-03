@@ -33,6 +33,9 @@ add_executable(${PROJECT_NAME}
 		w3D.h
 		wMulti.cpp
 		wMulti.h
+		Slicer.cpp
+		Slicer.h
+
 		MainWindow.ui
 		)
 

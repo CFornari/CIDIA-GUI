@@ -68,13 +68,14 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
-           <widget class="MainDisplay" name="leftDisplay" native="true">
+           <widget class="QWidget" name="leftDisplay" native="true">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>1</verstretch>
              </sizepolicy>
             </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_4"/>
            </widget>
           </item>
           <item>
