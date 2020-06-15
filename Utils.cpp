@@ -7,8 +7,23 @@
 #include <QmitkRenderWindow.h>
 
 #include <mitkStandaloneDataStorage.h>
+#include <mitkTransferFunction.h>
+#include <mitkTransferFunctionProperty.h>
+#include <mitkDataInteractor.h>
 
 #include <QDir>
+
+AppDataStorage::AppDataStorage()
+{
+	storage = mitk::StandaloneDataStorage::New();
+	nodes = mitk::StandaloneDataStorage::SetOfObjects::New();
+}
+
+AppDataStorage::~AppDataStorage()
+{
+	storage->Delete();
+	nodes->Delete();
+}
 
 void SaveSliceOrImageAsPNG(mitk::Image::Pointer image,
 													 mitk::SliceNavigationController::ViewDirection viewDirection,
@@ -121,3 +136,30 @@ bool CreateSlicesPngDir(const QDir& dir)
 	else
 		return false;
 }
+
+void setTrasnferFunction(mitk::StandaloneDataStorage::SetOfObjects::Pointer dataNodes)
+{
+	mitk::DataNode::Pointer node = dataNodes->at(0);
+
+	mitk::Image::Pointer image = dynamic_cast<mitk::Image *>(node->GetData());
+	if (image.IsNotNull())
+	{
+		// Set the property "volumerendering" to the Boolean value "true"
+		node->SetProperty("volumerendering", mitk::BoolProperty::New(true));
+
+		// Create a transfer function to assign optical properties (color and opacity) to grey-values of the data
+		mitk::TransferFunction::Pointer tf = mitk::TransferFunction::New();
+		tf->InitializeByMitkImage(image);
+
+		// Set the color transfer function AddRGBPoint(double x, double r, double g, double b)
+		tf->GetColorTransferFunction()->AddRGBPoint(tf->GetColorTransferFunction()->GetRange()[0], 1.0, 0.0, 0.0);
+		tf->GetColorTransferFunction()->AddRGBPoint(tf->GetColorTransferFunction()->GetRange()[1], 1.0, 1.0, 0.0);
+
+		// Set the piecewise opacity transfer function AddPoint(double x, double y)
+		tf->GetScalarOpacityFunction()->AddPoint(0, 0);
+		tf->GetScalarOpacityFunction()->AddPoint(tf->GetColorTransferFunction()->GetRange()[1], 1);
+
+		node->SetProperty("TransferFunction", mitk::TransferFunctionProperty::New(tf.GetPointer()));
+	}
+}
+

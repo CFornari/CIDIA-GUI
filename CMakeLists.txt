@@ -26,43 +26,41 @@ set(CMAKE_PREFIX_PATH
 
 find_package(MITK CONFIG REQUIRED)
 find_package(OpenMP REQUIRED)
-find_package(Qt5 COMPONENTS Widgets Charts REQUIRED)
+find_package(Qt5 COMPONENTS Widgets Charts Svg REQUIRED)
 
-add_subdirectory(widgets/FramelessWindow) # a static library
+add_subdirectory(widgets/SpaceXStyle) # a static library
+add_subdirectory(widgets/VolumeVisualizationView) # a static library
 #add_subdirectory(widgets/ImageNavigator) # a static library
 
 set(cpp_files
 		main.cpp
-		# GUI related
 		MainWindow.cpp
-		MainDisplay.cpp
-#		SliceAnimationControls.cpp
 		# Database / file managment
 		Utils.cpp
-		Concept.cpp
+		# Interface
+		Concept1.cpp
+		Concept2.cpp
+		Concept3.cpp
 		)
 
 set(header_files
-		# GUI related
 		MainWindow.h
-		MainDisplay.h
-#		SliceAnimationControls.h
 		# Database / file managment
 		Utils.h
 		# Interface
-#		ThumbnailListWidgetInterface.h
-
-Concept.h
+		Concept1.h
+		Concept2.h
+		Concept3.h
 		)
 
 set(ui_files
 		MainWindow.ui
-		Concept.ui)
+		Concept1.ui
+		Concept2.ui
+		Concept3.ui)
 
 set(qrc_files
-#		themes/qdarkstyle/style.qrc
-#		themes/breeze/breeze.qrc
-#		themes/framelessdark/darkstyle.qrc
+		resource.qrc
 		)
 
 set(files ${cpp_files} ${header_files} ${ui_files} ${qrc_files})
@@ -74,11 +72,14 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
 	MitkQtWidgetsExt
 	Qt5::Widgets
 	Qt5::Charts
-	FramelessWindow
+	Qt5::Svg
+	SpaceXStyle
+	VolumeVisualizationView
 #	thumbnailListWidget
 )
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_14)
 target_include_directories(${PROJECT_NAME} PUBLIC
-		"${CMAKE_SOURCE_DIR}/widgets/FramelessWindow"
+		"${CMAKE_SOURCE_DIR}/widgets/SpaceXStyle"
+		"${CMAKE_SOURCE_DIR}/widgets/VolumeVisualizationView"
 		)

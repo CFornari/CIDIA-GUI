@@ -7,8 +7,10 @@
 #include <mitkRenderingManager.h>
 #include <mitkStandaloneDataStorage.h>
 #include <mitkTransferFunction.h>
-#include <mitkTransferFunctionProperty.h>
-#include <mitkDataInteractor.h>
+//#include <mitkTransferFunctionProperty.h>
+//#include <mitkDataInteractor.h>
+
+#include <mitkTransferFunctionPropertySerializer.h>
 
 #include <itksys/SystemTools.hxx>
 #include <QVTKOpenGLWidget.h>
@@ -47,6 +49,10 @@ void w3D::setTrasnferFunction(mitk::StandaloneDataStorage::SetOfObjects::Pointer
 		tf->GetScalarOpacityFunction()->AddPoint(0, 0);
 		tf->GetScalarOpacityFunction()->AddPoint(tf->GetColorTransferFunction()->GetRange()[1], 1);
 
+		//		QString presetFileName("/media/storage/carlo/Documents/mitk-data/transfer.xml");
+//		mitk::TransferFunction::Pointer tf =
+//				mitk::TransferFunctionPropertySerializer::DeserializeTransferFunction(presetFileName.toLatin1());
+
 		node->SetProperty("TransferFunction", mitk::TransferFunctionProperty::New(tf.GetPointer()));
 	}
 }
@@ -66,4 +72,7 @@ void w3D::init(mitk::StandaloneDataStorage::Pointer ds)
 
 	// Reposition the camera to include all visible actors
 	m_RenderWindow->GetRenderer()->GetVtkRenderer()->ResetCamera();
+
+	auto geo = ds->ComputeBoundingGeometry3D(ds->GetAll());
+	mitk::RenderingManager::GetInstance()->InitializeView(m_RenderWindow->GetVtkRenderWindow(), geo);
 }

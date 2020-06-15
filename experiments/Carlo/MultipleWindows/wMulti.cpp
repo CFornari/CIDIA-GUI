@@ -28,9 +28,9 @@ void wMulti::setData(mitk::StandaloneDataStorage::Pointer ds)
 
 	m_MultiWidget->InitializeMultiWidget();
 
-	m_MultiWidget->ResetCrosshair();
+//	m_MultiWidget->ResetCrosshair();
 
-	m_MultiWidget->GetMultiWidgetLayoutManager()->SetLayoutDesign(QmitkMultiWidgetLayoutManager::LayoutDesign::ONLY_2D_VERTICAL);
+//	m_MultiWidget->GetMultiWidgetLayoutManager()->SetLayoutDesign(QmitkMultiWidgetLayoutManager::LayoutDesign::ONLY_2D_VERTICAL);
 
 	// Add the displayed views to the DataStorage to see their positions in 2D and 3D
 	m_MultiWidget->AddPlanesToDataStorage();

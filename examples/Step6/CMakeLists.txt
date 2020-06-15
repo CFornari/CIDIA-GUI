@@ -17,18 +17,19 @@ find_package(MITK CONFIG REQUIRED)
 find_package(OpenMP REQUIRED)
 
 set(cpp_files
-  Step6.cpp
-  Step6RegionGrowing1.cpp
-  Step6RegionGrowing2.cpp
-  Step6RegionGrowing3.cpp
-  Step6main.cpp
+		Step6main.cpp
+		Step6.cpp
+		Step6RegionGrowing.txx
+		Step6RegionGrowing1.cpp
+		Step6RegionGrowing2.cpp
+		Step6RegionGrowing3.cpp
 	)
 
 set(header_files
   Step6.h
 	)
 
-add_executable(${PROJECT_NAME} ${cpp_files})
+add_executable(${PROJECT_NAME} ${cpp_files} ${header_files})
 target_link_libraries(  ${PROJECT_NAME}
                         MitkCore 
 												MitkQtWidgetsExt

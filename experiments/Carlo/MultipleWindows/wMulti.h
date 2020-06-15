@@ -16,10 +16,10 @@ public:
 
 	void setData(mitk::StandaloneDataStorage::Pointer ds);
 	QmitkStdMultiWidget* getRenderWindow();
+
 protected:
 	QmitkStdMultiWidget *m_MultiWidget ;
 	mitk::StandaloneDataStorage::Pointer m_DataStorage;
-
 };
 
 #endif // WMULTI_H
