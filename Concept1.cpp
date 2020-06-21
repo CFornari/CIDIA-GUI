@@ -1,6 +1,8 @@
 #include "Concept1.h"
 #include "ui_Concept1.h"
 
+#include "AppDataManager.h"
+
 #include <QmitkStdMultiWidget.h>
 #include <QmitkRenderWindowWidget.h>
 
@@ -37,26 +39,26 @@
 #include <QmitkRenderWindow.h>
 #include <QmitkIOUtil.h>
 
-Concept1::Concept1(QWidget *parent,
-								 mitk::StandaloneDataStorage::Pointer ds)
+Concept1::Concept1(QWidget *parent)
 	:	QWidget(parent),
 		m_listCount(3),
 		m_valueMax(10),
 		m_valueCount(7),
 		m_dataTable(generateRandomData(m_listCount, m_valueMax, m_valueCount)),
-		m_DataStorage(ds /*mitk::StandaloneDataStorage::New()*/),
 		ui(new Ui::Concept1)
 {
 	ui->setupUi(this);
 
+	m_AppData = AppDataManager::GetInstance();
+
 	m_MultiWidget = new QmitkStdMultiWidget(this);
-	m_MultiWidget->SetDataStorage(m_DataStorage);
+	m_MultiWidget->SetDataStorage(m_AppData->getDataStorage());
 	m_MultiWidget->InitializeMultiWidget();
 	m_MultiWidget->ResetCrosshair();
 	m_MultiWidget->GetMultiWidgetLayoutManager()->SetLayoutDesign(QmitkMultiWidgetLayoutManager::LayoutDesign::ONLY_2D_VERTICAL);
 	ui->centerDisplay->layout()->addWidget(m_MultiWidget);
 
-	m_3DView = new QmitkRenderWindowWidget(this, QString("3D_Statistics"), m_DataStorage);
+	m_3DView = new QmitkRenderWindowWidget(this, QString("3D_Statistics"), m_AppData->getDataStorage());
 	m_3DView->setStyleSheet("border: 0px");
 	m_3DView->SetCornerAnnotationText("3D");
 //	m_3DView->GetRenderWindow()->SetLayoutIndex(mitk::BaseRenderer::ViewDirection::THREE_D);
@@ -64,6 +66,7 @@ Concept1::Concept1(QWidget *parent,
 	m_3DView->GetRenderWindow()->GetRenderer()->GetVtkRenderer()->ResetCamera();
 	ui->leftDisplay->layout()->addWidget(m_3DView);
 
+	ui->widget_5->setVisible(false);
 
 //  m_3DView->SetDecorationColor();
 
@@ -100,18 +103,6 @@ Concept1::~Concept1()
 {
 	m_MultiWidget->RemovePlanesFromDataStorage();
 	delete ui;
-}
-
-void Concept1::AddPlanesToDataStorage()
-{
-	if(m_MultiWidget)
-		m_MultiWidget->AddPlanesToDataStorage();
-}
-
-void Concept1::RemovePlanesFromDataStorage()
-{
-	if(m_MultiWidget)
-		m_MultiWidget->RemovePlanesFromDataStorage();
 }
 
 DataTable Concept1::generateRandomData(int listCount, int valueMax, int valueCount) const
@@ -250,5 +241,10 @@ QChart* Concept1::createScatterChart() const
 	Q_ASSERT(axisY);
 	axisY->setLabelFormat("%.1f  ");
 	return chart;
+}
+
+void Concept1::onVisibilityChanged(bool visible)
+{
+	this->setVisible(visible);
 }
 

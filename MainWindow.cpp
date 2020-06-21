@@ -1,6 +1,8 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
+#include "AppDataManager.h"
+#include "DataManagerView.h"
 #include "Concept1.h"
 #include "Concept2.h"
 #include "Concept3.h"
@@ -28,87 +30,99 @@
 
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent),
-		m_AppData(new AppDataStorage),
 		ui(new Ui::MainWindow)
 //		m_FirstImage(mitk::Image::New())
 {
 	ui->setupUi(this);
 
-	QGraphicsDropShadowEffect *windowShadow = new QGraphicsDropShadowEffect(this);
-	windowShadow->setBlurRadius(12.0);
-	windowShadow->setColor(palette().color(QPalette::Highlight));
-	windowShadow->setOffset(0.0);
-	ui->widget_3->setGraphicsEffect(windowShadow);
+	m_AppData = AppDataManager::GetInstance();
 
-	m_Concept1 = new Concept1(ui->windowView,  m_AppData->storage);
-	ui->windowViewLayout->addWidget(m_Concept1);
+	initDataManagerView();
+	initShadows();
+	initViews();
 
-	m_Concept2 = new Concept2(ui->windowView, m_AppData->storage);
-	ui->windowViewLayout->addWidget(m_Concept2);
-
-	m_Concept3 = new Concept3(ui->windowView, m_AppData);
-	ui->windowViewLayout->addWidget(m_Concept3);
+	// Needs to be the last one call from all init methods.
+	initConnections();
 
 	showConcept1();
-
-	connect(this, &MainWindow::dataLoaded, m_Concept3, &Concept3::dataLoaded);
-//	connect(this, &MainWindow::dataStorageUpdated, m_Concept1, &Concept::resetView);
-//	connect(this, &MainWindow::fileLoaded, m_ThumbnailListWidget, &ThumbnailListWidgetInterface::loadPictures);
+	emit viewConcept1VisibilityChanged(false);
 }
 
 MainWindow::~MainWindow()
 {
-	delete m_AppData;
+	delete ui;
+}
+
+void MainWindow::initDataManagerView()
+{
+	m_DataManagerView = new DataManagerView(this);
+	Widgets::MoveCenter(m_DataManagerView);
+	Widgets::MoveTop(m_DataManagerView);
+	m_DataManagerShowPosition = m_DataManagerView->geometry();
+	Widgets::MoveBaseTop(m_DataManagerView);
+	m_DataManagerHidePosition = m_DataManagerView->geometry();
+}
+
+void MainWindow::initShadows()
+{
+	addBorderShadowGloomEffect(ui->widget_3);
+	addBorderShadowGloomEffect(m_DataManagerView);
+}
+
+void MainWindow::initViews()
+{
+	m_Concept1 = new Concept1(ui->windowView);
+	ui->windowViewLayout->addWidget(m_Concept1);
+
+	m_Concept2 = new Concept2(ui->windowView);
+	ui->windowViewLayout->addWidget(m_Concept2);
+
+	m_Concept3 = new Concept3(ui->windowView);
+	ui->windowViewLayout->addWidget(m_Concept3);
+}
+
+void MainWindow::initConnections()
+{
+	connect(m_AppData, &AppDataManager::newDataLoadedEnd, m_Concept3, &Concept3::onDataLoaded);
+	connect(this, &MainWindow::viewConcept1VisibilityChanged, m_Concept1, &Concept1::onVisibilityChanged);
+	connect(this, &MainWindow::viewConcept2VisibilityChanged, m_Concept2, &Concept2::onVisibilityChanged);
+	connect(this, &MainWindow::viewConcept3VisibilityChanged, m_Concept3, &Concept3::onVisibilityChanged);
+}
+
+void MainWindow::addBorderShadowGloomEffect(QWidget* widget)
+{
+	QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(this);
+	shadow->setBlurRadius(8.0);
+	shadow->setColor(palette().color(QPalette::Highlight));
+	shadow->setOffset(0);
+	widget->setGraphicsEffect(shadow);
 }
 
 void MainWindow::showConcept1()
 {
-	m_Concept1->RemovePlanesFromDataStorage();
-	m_Concept2->RemovePlanesFromDataStorage();
+	emit viewConcept1VisibilityChanged(true);
+	emit viewConcept2VisibilityChanged(false);
+	emit viewConcept3VisibilityChanged(false);
 
-	m_Concept1->setVisible(true);
-	m_Concept2->setVisible(false);
-	m_Concept3->setVisible(false);
+//	mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
 void MainWindow::showConcept2()
 {
-	m_Concept1->RemovePlanesFromDataStorage();
-	m_Concept2->RemovePlanesFromDataStorage();
+	emit viewConcept1VisibilityChanged(false);
+	emit viewConcept2VisibilityChanged(true);
+	emit viewConcept3VisibilityChanged(false);
 
-	m_Concept1->setVisible(false);
-	m_Concept2->setVisible(true);
-	m_Concept3->setVisible(false);
+//	mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
 void MainWindow::showConcept3()
 {
-	m_Concept1->RemovePlanesFromDataStorage();
-	m_Concept2->RemovePlanesFromDataStorage();
+	emit viewConcept1VisibilityChanged(false);
+	emit viewConcept2VisibilityChanged(false);
+	emit viewConcept3VisibilityChanged(true);
 
-	m_Concept1->setVisible(false);
-	m_Concept2->setVisible(false);
-	m_Concept3->setVisible(true);
-}
-
-void MainWindow::setupLayout()
-{
-//	QFrame *mainWidget = new QFrame(this);
-//	this->setCentralWidget(mainWidget);
-
-//	QHBoxLayout *hLayout = new QHBoxLayout(mainWidget);
-//	mainWidget->setLayout(hLayout);
-
-//	QSplitter *splitter = new QSplitter(this);
-//	hLayout->addWidget(splitter);
-
-//	m_ThumbnailListWidget = new ThumbnailListWidgetInterface(splitter);
-//	m_MainDisplay = new MainDisplay(splitter);
-//	SliceAnimationControls *sliceAnimationWidget = new SliceAnimationControls(splitter, m_DataStorage, m_FirstImage);
-//	splitter->addWidget(m_ThumbnailListWidget);
-//	splitter->addWidget(m_MainDisplay);
-
-//	m_FirstImage->GetSlicedGeometry()->GetSlices();
+//	mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 }
 
 void MainWindow::openFileDialog()
@@ -120,55 +134,36 @@ void MainWindow::openFileDialog()
 		dialog.setFileMode(QFileDialog::ExistingFile);
 
 		if (dialog.exec() == QDialog::Accepted)
-				loadImage(dialog.selectedFiles().constFirst());
+			m_AppData->loadFile(dialog.selectedFiles().constFirst());
 }
 
-void MainWindow::loadImage(const QString filePath)
+void MainWindow::onDataManagerButtonToggled(bool state)
 {
-	try
-	{
-		m_AppData->nodes = QmitkIOUtil::Load(filePath, *m_AppData->storage);
-	}
-	catch (const mitk::Exception& e)
-	{
-		MITK_INFO << e;
-		return;
-	}
-//	setTrasnferFunction(m_AppData->nodes);
-
-	mitk::RenderingManager::GetInstance()->InitializeViewsByBoundingObjects(m_AppData->storage);
-	emit dataLoaded(m_AppData);
-//	mitk::Image::Pointer image = dynamic_cast<mitk::Image *>(dataNodes->at(0)->GetData());
-
-//	if ((m_FirstImage.IsNull()) && (image.IsNotNull()))
-//		m_FirstImage = image;
-//	else
-//		exit(2);
-
-//	QFileInfo fileInfo(filePath);
-
-//	QDir dir(GenerateDirPath(fileInfo));
-
-//	if(CreateSlicesPngDir(dir))
-//	{
-//		// axial
-//		SaveSliceOrImageAsPNG(m_FirstImage, mitk::SliceNavigationController::Axial, dir.absolutePath().toStdString()+ "/axial/", false);
-//		// sagital
-//		SaveSliceOrImageAsPNG(m_FirstImage, mitk::SliceNavigationController::Sagittal, dir.absolutePath().toStdString() +"/sagittal/", false);
-//		// coronal
-//		SaveSliceOrImageAsPNG(m_FirstImage, mitk::SliceNavigationController::Frontal, dir.absolutePath().toStdString() + "/coronal/", false);
-//	}
-
-//	emit fileLoaded(dir.absolutePath());
-	// If the file is loaded refresh display's views.
-//	if(!dataNodes->empty())
-//		// global reinit
-//		QmitkRenderingManager::GetInstance()->InitializeViewsByBoundingObjects(m_DataStorage);
-//	else
-//		exit(2);
-
-//	qDebug() << "SIZE: " << m_FirstImage->GetSlicedGeometry()->GetSlices();
-
-	//	m_FirstImage->GetSlicedGeometry()->GetSliceNavigationController()->GetSlice()->SetPos(0);
-	//	qDebug() << QmitkIOUtil::Save(m_FirstImage, QString("image.png"), QString("~/"), this, false);
+	if(state)
+		showDataManager();
+	else
+		hideDataManager();
 }
+
+void MainWindow::showDataManager()
+{
+	//	Create animation
+	QPropertyAnimation *animation = new QPropertyAnimation(m_DataManagerView, "geometry");
+	animation->setDuration(1000);
+	animation->setStartValue(m_DataManagerHidePosition);
+	animation->setEndValue(m_DataManagerShowPosition);
+	animation->start();
+}
+
+void MainWindow::hideDataManager()
+{
+	//	Create animation
+	QPropertyAnimation *animation = new QPropertyAnimation(m_DataManagerView, "geometry");
+	animation->setDuration(1000);
+	animation->setStartValue(m_DataManagerShowPosition);
+	animation->setEndValue(m_DataManagerHidePosition);
+	animation->start();
+}
+
+
+

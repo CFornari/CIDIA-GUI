@@ -1,6 +1,7 @@
 #include "Concept3.h"
 #include "ui_Concept3.h"
 
+#include "AppDataManager.h"
 #include "Utils.h"
 #include "VolumeVisualizationView.h"
 
@@ -22,15 +23,15 @@
 #include <mitkDataStorage.h>
 #include <mitkIOUtil.h>
 
-Concept3::Concept3(QWidget *parent,
-									 AppDataStorage *appData)
+Concept3::Concept3(QWidget *parent)
 	:	QWidget(parent),
-		m_AppData(appData),
 		ui(new Ui::Concept3)
 {
 	ui->setupUi(this);
 
-	renderWidget = new QmitkRenderWindowWidget(this, QString("3D_transferFunction"), m_AppData->storage);
+	m_AppData = AppDataManager::GetInstance();
+
+	renderWidget = new QmitkRenderWindowWidget(this, QString("3D_transferFunction"), m_AppData->getDataStorage());
 	renderWidget->GetRenderWindow()->GetRenderer()->SetMapperID(mitk::BaseRenderer::Standard3D);
 	renderWidget->GetRenderWindow()->GetRenderer()->GetVtkRenderer()->ResetCamera();
 	renderWidget->setStyleSheet("border: 0px");
@@ -46,13 +47,18 @@ Concept3::Concept3(QWidget *parent,
 
 Concept3::~Concept3()
 {
-	delete m_AppData;
 	delete ui;
 }
 
-void Concept3::dataLoaded(AppDataStorage* appData)
+void Concept3::onDataLoaded()
 {
-	volumeVisualizationView->SetDataNode(appData->nodes->at(0));
+	volumeVisualizationView->SetDataNode(m_AppData->getSetOfObjects()->at(0));
 }
+
+void Concept3::onVisibilityChanged(bool visible)
+{
+	this->setVisible(visible);
+}
+
 
 

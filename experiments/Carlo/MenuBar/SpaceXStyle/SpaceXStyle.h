@@ -20,12 +20,12 @@
 #include <QProxyStyle>
 #include <QStyleFactory>
 
-class SpaceXStyle : public QProxyStyle {
+class DarkStyle : public QProxyStyle {
   Q_OBJECT
 
  public:
-  SpaceXStyle();
-  explicit SpaceXStyle(QStyle *style);
+  DarkStyle();
+  explicit DarkStyle(QStyle *style);
 
   QStyle *baseStyle() const;
 

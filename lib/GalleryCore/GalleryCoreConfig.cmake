@@ -46,14 +46,14 @@ add_library(GalleryCore SHARED IMPORTED)
 
 set_target_properties(GalleryCore PROPERTIES
   INTERFACE_COMPILE_DEFINITIONS "cxx_std_14"
-  INTERFACE_INCLUDE_DIRECTORIES "/media/storage/carlo/Documents/Projects/covid-gui/covid-gui-desktop/lib/GalleryCore/include"
+  INTERFACE_INCLUDE_DIRECTORIES "/usr/mitk-development/covid-gui/lib/GalleryCore/include"
 )
 
 # Import target "GalleryCore" for configuration "Debug"
 set_property(TARGET GalleryCore APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
 set_target_properties(GalleryCore PROPERTIES
   IMPORTED_LINK_DEPENDENT_LIBRARIES_DEBUG "Qt5::Core;Qt5::Sql"
-  IMPORTED_LOCATION_DEBUG "/tmp/QtCreator-oKXaKQ/qtc-cmake-jYxThkiy/libGalleryCore.so.1.0.0"
+  IMPORTED_LOCATION_DEBUG "/usr/mitk-development/covid-gui/lib/GalleryCore/build/build-GalleryCore-Desktop_Qt_5_12_8_GCC_64bit-Debug/libGalleryCore.so.1.0.0"
   IMPORTED_SONAME_DEBUG "libGalleryCore.so.1"
   )
 

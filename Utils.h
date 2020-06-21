@@ -7,16 +7,7 @@
 
 class QFileInfo;
 class QDir;
-
-struct AppDataStorage
-{
-	AppDataStorage();
-	~AppDataStorage();
-
-	mitk::StandaloneDataStorage::Pointer storage;
-	mitk::StandaloneDataStorage::SetOfObjects::Pointer nodes;
-};
-
+class QWidget;
 
 void SaveSliceOrImageAsPNG(mitk::Image::Pointer image,
 													 mitk::SliceNavigationController::ViewDirection viewDirection,
@@ -28,6 +19,15 @@ QDir GenerateDirPath(const QFileInfo& fileInfo);
 
 bool CreateSlicesPngDir(const QDir& dir);
 
-void setTrasnferFunction(mitk::StandaloneDataStorage::SetOfObjects::Pointer dataNodes);
+void SetTrasnferFunction(mitk::StandaloneDataStorage::SetOfObjects::Pointer dataNodes);
+
+namespace Widgets
+{
+	void MoveCenter(QWidget* widget);
+
+	void MoveTop(QWidget* widget);
+	void MoveBaseTop(QWidget *widget);
+}
+
 
 #endif // UTILS_H

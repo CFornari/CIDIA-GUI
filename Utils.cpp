@@ -11,19 +11,10 @@
 #include <mitkTransferFunctionProperty.h>
 #include <mitkDataInteractor.h>
 
+#include <QGuiApplication>
+#include <QScreen>
+
 #include <QDir>
-
-AppDataStorage::AppDataStorage()
-{
-	storage = mitk::StandaloneDataStorage::New();
-	nodes = mitk::StandaloneDataStorage::SetOfObjects::New();
-}
-
-AppDataStorage::~AppDataStorage()
-{
-	storage->Delete();
-	nodes->Delete();
-}
 
 void SaveSliceOrImageAsPNG(mitk::Image::Pointer image,
 													 mitk::SliceNavigationController::ViewDirection viewDirection,
@@ -137,7 +128,7 @@ bool CreateSlicesPngDir(const QDir& dir)
 		return false;
 }
 
-void setTrasnferFunction(mitk::StandaloneDataStorage::SetOfObjects::Pointer dataNodes)
+void SetTrasnferFunction(mitk::StandaloneDataStorage::SetOfObjects::Pointer dataNodes)
 {
 	mitk::DataNode::Pointer node = dataNodes->at(0);
 
@@ -163,3 +154,27 @@ void setTrasnferFunction(mitk::StandaloneDataStorage::SetOfObjects::Pointer data
 	}
 }
 
+void Widgets::MoveCenter(QWidget* widget)
+{
+	QRect screenGeometry = QGuiApplication::screens()[0]->geometry();
+	int x = (screenGeometry.width() - widget->width()) / 2;
+	int y = (screenGeometry.height() - widget->height()) / 2;
+	widget->move(x, y);
+}
+
+void Widgets::MoveTop(QWidget* widget)
+{
+	QRect screenGeometry = QGuiApplication::screens()[0]->geometry();
+	int x = widget->geometry().x();
+	int y = screenGeometry.top();
+	widget->move(x, y);
+}
+
+void Widgets::MoveBaseTop(QWidget* widget)
+{
+	QRect screenGeometry = QGuiApplication::screens()[0]->geometry();
+	int x = widget->geometry().x();
+	int y = screenGeometry.top() - widget->geometry().height();
+	y = y - 5; // This helps hides the border.
+	widget->move(x, y);
+}

@@ -5,14 +5,11 @@
 
 #include <QWidget>
 
-#include <mitkStandaloneDataStorage.h>
-
-
 namespace Ui {
 	class Concept3;
 }
 
-struct AppDataStorage;
+class AppDataManager;
 class QmitkRenderWindowWidget;
 class VolumeVisualizationView;
 
@@ -21,17 +18,17 @@ class Concept3 : public QWidget
 	Q_OBJECT
 
 public:
-	explicit Concept3(QWidget *parent = nullptr,
-										AppDataStorage *appData = new AppDataStorage());
+	explicit Concept3(QWidget *parent = nullptr);
 	~Concept3();
 
 public slots:
-	void dataLoaded(AppDataStorage* appData);
+	void onDataLoaded();
+	void onVisibilityChanged(bool visible);
 
 private:
 	Ui::Concept3 *ui;
 
-	AppDataStorage *m_AppData;
+	AppDataManager *m_AppData;
 
 	QmitkRenderWindowWidget *renderWidget;
 

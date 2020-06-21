@@ -1,6 +1,6 @@
 #include "MainWindow.h"
 
-#include "SpaceXStyle.h"
+#include "DarkStyle.h"
 
 #include <QmitkRegisterClasses.h>
 
@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
 
-	a.setStyle(new SpaceXStyle);
+	a.setStyle(new DarkStyle);
 
 	// Register Qmitk-dependent global instances
 	QmitkRegisterClasses();

@@ -15,7 +15,8 @@ find_package(MITK CONFIG REQUIRED)
 find_package(OpenMP REQUIRED)
 
 add_executable(${PROJECT_NAME} Step3.cpp)
-target_link_libraries(  ${PROJECT_NAME}
-												MitkCore
-												MitkQtWidgetsExt
-										)
+
+target_link_libraries(${PROJECT_NAME} PUBLIC_HEADER
+		MitkCore
+		MitkQtWidgetsExt
+		)

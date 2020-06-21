@@ -28,7 +28,7 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/../installation)
 
-find_package(Qt5 COMPONENTS Core Sql REQUIRED)
+find_package(Qt5 5.12 COMPONENTS Core Sql REQUIRED)
 
 set(SOURCE_FILES
 		Album.cpp

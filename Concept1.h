@@ -4,8 +4,6 @@
 #include <QWidget>
 #include <QChartGlobal>
 
-#include <mitkStandaloneDataStorage.h>
-
 QT_CHARTS_BEGIN_NAMESPACE
 class QChartView;
 class QChart;
@@ -23,24 +21,24 @@ namespace Ui {
 
 class QmitkStdMultiWidget;
 class QmitkRenderWindowWidget;
+class AppDataManager;
 
 class Concept1 : public QWidget
 {
 	Q_OBJECT
 
 public:
-	explicit Concept1(QWidget *parent = nullptr,
-									 mitk::StandaloneDataStorage::Pointer ds = mitk::StandaloneDataStorage::New());
+	explicit Concept1(QWidget *parent = nullptr);
 	~Concept1();
-
-	void AddPlanesToDataStorage();
-	void RemovePlanesFromDataStorage();
 
 	DataTable generateRandomData(int listCount, int valueMax, int valueCount) const;
 	QChart *createAreaChart() const;
 	QChart *createBarChart(int valueCount) const;
 	QChart *createSplineChart() const;
 	QChart *createScatterChart() const;
+
+public slots:
+	void onVisibilityChanged(bool visible);
 
 private:
 	int m_listCount;
@@ -52,7 +50,8 @@ private:
 
 	QmitkStdMultiWidget *m_MultiWidget;
 	QmitkRenderWindowWidget *m_3DView;
-	mitk::StandaloneDataStorage::Pointer m_DataStorage;
+
+	AppDataManager *m_AppData;
 };
 
 #endif // CONCEPT_H

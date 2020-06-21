@@ -7,11 +7,15 @@
 #include <mitkImage.h>
 
 #include <QMainWindow>
+#include <QtSvg>
 
-struct AppDataStorage;
+class AppDataManager;
+class DataManagerView;
 class Concept1;
 class Concept2;
 class Concept3;
+
+class QRect;
 
 namespace Ui {
 	class MainWindow;
@@ -30,23 +34,33 @@ public slots:
 	void showConcept3();
 	void openFileDialog();
 
+	void onDataManagerButtonToggled(bool state);
+	void showDataManager();
+	void hideDataManager();
+
 signals:
-	void dataLoaded(AppDataStorage *appData);
+	void viewConcept1VisibilityChanged(bool visible);
+	void viewConcept2VisibilityChanged(bool visible);
+	void viewConcept3VisibilityChanged(bool visible);
+
+protected:
+	void initDataManagerView();
+	void initShadows();
+	void initViews();
+	void initConnections();
 
 private:
-	void setupLayout();
-	void setupMenus();
-
-	void loadImage(const QString filePath);
-
-private:
-	mitk::Image::Pointer m_FirstImage;
-
-//	ThumbnailListWidgetInterface *m_ThumbnailListWidget;
+//	mitk::Image::Pointer m_FirstImage;
+	void addBorderShadowGloomEffect(QWidget *widget);
 
 	Ui::MainWindow *ui;
 
-	AppDataStorage *m_AppData;
+	AppDataManager *m_AppData;
+
+	DataManagerView *m_DataManagerView;
+	QRect m_DataManagerShowPosition;
+	QRect m_DataManagerHidePosition;
+
 	Concept1 *m_Concept1;
 	Concept2 *m_Concept2;
 	Concept3 *m_Concept3;
