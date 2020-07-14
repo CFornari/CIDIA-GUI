@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Concept3</class>
- <widget class="QWidget" name="Concept3">
+ <class>VolumeVisualizationWindow</class>
+ <widget class="QWidget" name="VolumeVisualizationWindow">
   <property name="geometry">
    <rect>
     <x>0</x>

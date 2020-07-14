@@ -25,14 +25,12 @@ find_package(MITK CONFIG REQUIRED)
 find_package(OpenMP REQUIRED)
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
+add_subdirectory("${CMAKE_SOURCE_DIR}/../../../modules/RenderWindows/" build/)
+
 add_executable(${PROJECT_NAME}
 		main.cpp
 		MainWindow.cpp
 		MainWindow.h
-		w3D.cpp
-		w3D.h
-		wMulti.cpp
-		wMulti.h
 
 		MainWindow.ui
 		)
@@ -41,4 +39,10 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 		MitkCore
 		MitkQtWidgetsExt
 		Qt5::Widgets
+		RenderWindows
 		)
+
+target_include_directories(${PROJECT_NAME} PUBLIC
+		"${CMAKE_SOURCE_DIR}/../../../modules/RenderWindows/"
+		)
+

@@ -19,7 +19,7 @@ namespace
 {
   int GetNumberOfSlices(int renderWindow)
   {
-    const QString renderWindowName = QString("stdmulti.widget%1").arg(renderWindow);
+		const QString renderWindowName = QString("MovieMaker%1").arg(renderWindow);
     vtkRenderWindow* theRenderWindow = mitk::BaseRenderer::GetRenderWindowByName(renderWindowName.toStdString());
 
     if (theRenderWindow != nullptr)
@@ -79,6 +79,8 @@ void QmitkSliceAnimationWidget::OnRenderWindowChanged(int renderWindow)
 {
   if (nullptr == m_AnimationItem)
     return;
+
+	emit renderWindowChanged(renderWindow);
 
   const int lastSlice = static_cast<int>(GetNumberOfSlices(renderWindow) - 1);
 

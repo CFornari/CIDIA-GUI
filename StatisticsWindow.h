@@ -16,20 +16,20 @@ typedef QList<DataList> DataTable;
 QT_CHARTS_USE_NAMESPACE
 
 namespace Ui {
-	class Concept1;
+	class StatisticsWindow;
 }
 
 class QmitkStdMultiWidget;
-class QmitkRenderWindowWidget;
+class Qmitk3DRenderWidget;
 class AppDataManager;
 
-class Concept1 : public QWidget
+class StatisticsWindow : public QWidget
 {
 	Q_OBJECT
 
 public:
-	explicit Concept1(QWidget *parent = nullptr);
-	~Concept1();
+	explicit StatisticsWindow(QWidget *parent = nullptr);
+	~StatisticsWindow();
 
 	DataTable generateRandomData(int listCount, int valueMax, int valueCount) const;
 	QChart *createAreaChart() const;
@@ -38,18 +38,22 @@ public:
 	QChart *createScatterChart() const;
 
 public slots:
-	void onVisibilityChanged(bool visible);
+	void onNewDataLoadedEnd();
 
 private:
+	virtual void showEvent(QShowEvent *e) override;
+	virtual void hideEvent(QHideEvent *e) override;
+	void resetViews();
+
 	int m_listCount;
 	int m_valueMax;
 	int m_valueCount;
 	QList<QChartView *> m_charts;
 	DataTable m_dataTable;
-	Ui::Concept1 *ui;
+	Ui::StatisticsWindow *ui;
 
 	QmitkStdMultiWidget *m_MultiWidget;
-	QmitkRenderWindowWidget *m_3DView;
+	Qmitk3DRenderWidget *m_3DView;
 
 	AppDataManager *m_AppData;
 };

@@ -62,6 +62,7 @@ set(ui_files
 		)
 
 set(qrc_files
+		moviemaker.qrc
 		)
 
 add_library(${PROJECT_NAME} STATIC ${cpp_files} ${header_files} ${ui_files} ${qrc_files})

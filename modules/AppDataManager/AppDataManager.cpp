@@ -32,7 +32,7 @@ void AppDataManager::loadFile(const QString& filePath)
 	emit newDataLoadedStart();
 	try
 	{
-		m_SetOfObjects = mitk::IOUtil::Load(filePath.toStdString(), *m_Storage);
+		m_SetOfObjects = mitk::IOUtil::Load(filePath.toStdString(), *m_StorageMaster);
 	}
 	catch (const mitk::Exception& e)
 	{
@@ -40,22 +40,104 @@ void AppDataManager::loadFile(const QString& filePath)
 		return;
 	}
 
-	onNewNodeAdded();
-
-	mitk::RenderingManager::GetInstance()->InitializeViewsByBoundingObjects(m_Storage);
 	mitk::RenderingManager::GetInstance()->RequestUpdateAll();
 
+	onNewNodeAdded();
+
 	emit newDataLoadedEnd();
+
+	debugListNodesNamesFromFiles();
+	debugListNodesNamesFromTree();
+}
+
+bool AppDataManager::createDataStorageFromMaster(const QString& name)
+{
+	if(m_StorageHash.contains(name))
+	{
+		std::cout << "AppDataManager::createDataStorageFromMaster(): Name already exists." << endl;
+		return false; // fail
+	}
+
+	mitk::StandaloneDataStorage::Pointer storage = mitk::StandaloneDataStorage::New();
+
+	for(auto node : m_FileNodeList)
+	{
+		storage->Add(node);
+	}
+
+	m_StorageHash.insert(name, storage);
+
+	return true;	// success
+}
+
+
+mitk::StandaloneDataStorage::Pointer AppDataManager::getDataStorageMaster() const
+{
+	return m_StorageMaster;
+}
+
+mitk::StandaloneDataStorage::Pointer AppDataManager::getDataStorageByName(const QString& name) const
+{
+	if(m_StorageHash.contains(name))
+	{
+		return m_StorageHash[name];
+	}
+	else
+	{
+		std::cout << "AppDataManager::getDataStorageByName(): name doesn't exists in hash, "
+								 "returning mitk::StandaloneDataStorage::New() to avoid program abortion." << endl;
+		return mitk::StandaloneDataStorage::New();
+	}
+}
+
+QHash<QString, mitk::DataNode::Pointer> AppDataManager::getFileNodeList() const
+{
+	return m_FileNodeHash;
+}
+
+unsigned int AppDataManager::getNumberOfFiles()
+{
+	return m_FileNodeHash.size();
+}
+
+bool AppDataManager::FilesExist()
+{
+	if(m_FileNodeHash.isEmpty())
+		return false;
+	else
+		return true;
+}
+
+void AppDataManager::debugListNodesNamesFromFiles()
+{
+	unsigned int i = 0;
+	std::cout << "debugListNodesNamesFromFiles: " << endl;
+	for(auto node : m_FileNodeHash)
+	{
+		std::cout << "Node(" << i << "): " << node->GetName() <<endl;
+		i++;
+	}
+}
+
+void AppDataManager::debugListNodesNamesFromTree()
+{
+	QList<mitk::DataNode::Pointer> nodeList = m_Tree->GetNodeSet();
+	unsigned int i = 0;
+	std::cout << "debugListNodesNamesFromTree: " << endl;
+	for(auto node : nodeList)
+	{
+		std::cout << "Node(" << i << "): " << node->GetName() <<endl;
+		i++;
+	}
 }
 
 AppDataManager::AppDataManager()
 	: QObject(qApp)
 {
-	m_Storage = mitk::StandaloneDataStorage::New();
-	m_DummyStorage = mitk::StandaloneDataStorage::New();
+	m_StorageMaster = mitk::StandaloneDataStorage::New();
 	m_SetOfObjects = mitk::StandaloneDataStorage::SetOfObjects::New();
 
-	m_Tree = new QmitkDataStorageTreeModel(m_Storage, true, this);
+	m_Tree = new QmitkDataStorageTreeModel(m_StorageMaster, true, this);
 }
 
 AppDataManager::~AppDataManager()
@@ -64,43 +146,16 @@ AppDataManager::~AppDataManager()
 
 void AppDataManager::onNewNodeAdded()
 {
-	QList<mitk::DataNode::Pointer> nodeSet = m_Tree->GetNodeSet();
-	std::string name = nodeSet.first()->GetName();
-	m_NodeList.insert(QString::fromUtf8(name.data(),name.size()),nodeSet.first());
-}
+	mitk::DataNode::Pointer node = m_Tree->GetNodeSet().first();
 
-mitk::StandaloneDataStorage::Pointer AppDataManager::getDummyStorage() const
-{
-	return m_DummyStorage;
-}
+	std::string name = node->GetName();
 
-mitk::StandaloneDataStorage::SetOfObjects::Pointer AppDataManager::getSetOfObjects() const
-{
-	return m_SetOfObjects;
-}
+	m_FileNodeHash.insert(QString::fromUtf8(name.data(),name.size()), node);
+	m_FileNodeList.append(node);
 
-void AppDataManager::setSetOfObjects(const mitk::StandaloneDataStorage::SetOfObjects::Pointer* setOfObjects)
-{
-	//	m_SetOfObjects = setOfObjects;
-}
-
-void AppDataManager::debugListNodesNamesFromTree()
-{
-	QList<mitk::DataNode::Pointer> nodeList = m_Tree->GetNodeSet();
-	unsigned int i = 0;
-	for(auto node : nodeList)
+	for(auto storage : m_StorageHash)
 	{
-		std::cout << "Node(" << i << "): " << node->GetName() <<endl;
-		i++;
+		storage->Add(node);
 	}
 }
 
-mitk::StandaloneDataStorage::Pointer AppDataManager::getDataStorage() const
-{
-	return m_Storage;
-}
-
-void AppDataManager::setStorage(const mitk::StandaloneDataStorage::Pointer* storage)
-{
-	m_Storage = *storage;
-}

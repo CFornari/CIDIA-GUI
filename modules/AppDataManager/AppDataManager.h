@@ -5,6 +5,7 @@
 
 #include <QObject>
 #include <QHash>
+#include <QVector>
 
 class QmitkDataStorageTreeModel;
 class QmitkStdMultiWidget;
@@ -17,15 +18,18 @@ public:
 
 	void loadFile(const QString& filePath);
 
-	mitk::StandaloneDataStorage::Pointer getDataStorage() const;
-	void setStorage(const mitk::StandaloneDataStorage::Pointer* Storage);
+	bool createDataStorageFromMaster(const QString& name);
 
-	mitk::StandaloneDataStorage::SetOfObjects::Pointer getSetOfObjects() const;
-	void setSetOfObjects(const mitk::StandaloneDataStorage::SetOfObjects::Pointer* setOfObjects);
+	mitk::StandaloneDataStorage::Pointer getDataStorageMaster() const;
+	mitk::StandaloneDataStorage::Pointer getDataStorageByName(const QString& name) const;
+
+	unsigned int getNumberOfFiles();
+	bool FilesExist();
 
 	void debugListNodesNamesFromTree();
+	void debugListNodesNamesFromFiles();
 
-	mitk::StandaloneDataStorage::Pointer getDummyStorage() const;
+	QHash<QString, mitk::DataNode::Pointer> getFileNodeList() const;
 
 signals:
 	void newDataLoadedStart();
@@ -40,13 +44,14 @@ protected:
 private:
 	static AppDataManager* m_Instance;
 
-	mitk::StandaloneDataStorage::Pointer m_Storage;
-	mitk::StandaloneDataStorage::Pointer m_DummyStorage;
+	mitk::StandaloneDataStorage::Pointer m_StorageMaster;
+	QHash<QString, mitk::StandaloneDataStorage::Pointer> m_StorageHash;
 
 	mitk::StandaloneDataStorage::SetOfObjects::Pointer m_SetOfObjects;
 
 	QmitkDataStorageTreeModel *m_Tree;
-	QHash<QString, mitk::DataNode::Pointer> m_NodeList;
+	QHash<QString, mitk::DataNode::Pointer> m_FileNodeHash;
+	QList<mitk::DataNode::Pointer> m_FileNodeList;
 };
 
 #endif // APPDATAMANAGER_H

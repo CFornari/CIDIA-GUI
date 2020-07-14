@@ -1,10 +1,10 @@
-#include "Concept1.h"
-#include "ui_Concept1.h"
+#include "StatisticsWindow.h"
+#include "ui_StatisticsWindow.h"
 
 #include "AppDataManager.h"
 
 #include <QmitkStdMultiWidget.h>
-#include <QmitkRenderWindowWidget.h>
+#include <Qmitk3DRenderWidget.h>
 
 #include <QtCharts/QChartView>
 #include <QtCharts/QPieSeries>
@@ -39,38 +39,38 @@
 #include <QmitkRenderWindow.h>
 #include <QmitkIOUtil.h>
 
-Concept1::Concept1(QWidget *parent)
+StatisticsWindow::StatisticsWindow(QWidget *parent)
 	:	QWidget(parent),
 		m_listCount(3),
 		m_valueMax(10),
 		m_valueCount(7),
 		m_dataTable(generateRandomData(m_listCount, m_valueMax, m_valueCount)),
-		ui(new Ui::Concept1)
+		ui(new Ui::StatisticsWindow)
 {
 	ui->setupUi(this);
 
 	m_AppData = AppDataManager::GetInstance();
+	m_AppData->createDataStorageFromMaster("Statistics");
+	auto dataStorage = m_AppData->getDataStorageByName("Statistics");
+
+	m_AppData->createDataStorageFromMaster("3D_Statistics");
+	auto dataStorage2 = m_AppData->getDataStorageByName("3D_Statistics");
 
 	m_MultiWidget = new QmitkStdMultiWidget(this);
-	m_MultiWidget->SetDataStorage(m_AppData->getDataStorage());
+	m_MultiWidget->SetDataStorage(dataStorage);
 	m_MultiWidget->InitializeMultiWidget();
 	m_MultiWidget->ResetCrosshair();
+	m_MultiWidget->AddPlanesToDataStorage();
 	m_MultiWidget->GetMultiWidgetLayoutManager()->SetLayoutDesign(QmitkMultiWidgetLayoutManager::LayoutDesign::ONLY_2D_VERTICAL);
 	ui->centerDisplay->layout()->addWidget(m_MultiWidget);
 
-	m_3DView = new QmitkRenderWindowWidget(this, QString("3D_Statistics"), m_AppData->getDataStorage());
-	m_3DView->setStyleSheet("border: 0px");
-	m_3DView->SetCornerAnnotationText("3D");
-//	m_3DView->GetRenderWindow()->SetLayoutIndex(mitk::BaseRenderer::ViewDirection::THREE_D);
-	m_3DView->GetRenderWindow()->GetRenderer()->SetMapperID(mitk::BaseRenderer::Standard3D);
-	m_3DView->GetRenderWindow()->GetRenderer()->GetVtkRenderer()->ResetCamera();
-	ui->leftDisplay->layout()->addWidget(m_3DView);
+	m_3DView = new Qmitk3DRenderWidget(this, QString("3D_Statistics"));
+	m_3DView->SetDataStorage(dataStorage2);
+	ui->horizontalLayout_4->addWidget(m_3DView);
 
-	ui->widget_5->setVisible(false);
+	connect(m_AppData, &AppDataManager::newDataLoadedEnd, this, &StatisticsWindow::onNewDataLoadedEnd);
 
-//  m_3DView->SetDecorationColor();
-
-//  mitk::BaseRenderer::GetInstance(renderWindowWidget4->GetRenderWindow()->GetRenderWindow())->SetMapperID(mitk::BaseRenderer::Standard3D);
+	ui->widget_5->hide();
 
 //	QChartView *chartView;
 
@@ -99,13 +99,13 @@ Concept1::Concept1(QWidget *parent)
 //	}
 }
 
-Concept1::~Concept1()
+StatisticsWindow::~StatisticsWindow()
 {
 	m_MultiWidget->RemovePlanesFromDataStorage();
 	delete ui;
 }
 
-DataTable Concept1::generateRandomData(int listCount, int valueMax, int valueCount) const
+DataTable StatisticsWindow::generateRandomData(int listCount, int valueMax, int valueCount) const
 {
 	DataTable dataTable;
 
@@ -128,7 +128,7 @@ DataTable Concept1::generateRandomData(int listCount, int valueMax, int valueCou
 	return dataTable;
 }
 
-QChart* Concept1::createAreaChart() const
+QChart* StatisticsWindow::createAreaChart() const
 {
 	QChart *chart = new QChart();
 	chart->setTitle("Area chart");
@@ -166,7 +166,7 @@ QChart* Concept1::createAreaChart() const
 	return chart;
 }
 
-QChart* Concept1::createBarChart(int valueCount) const
+QChart* StatisticsWindow::createBarChart(int valueCount) const
 {
 	Q_UNUSED(valueCount);
 	QChart *chart = new QChart();
@@ -191,7 +191,7 @@ QChart* Concept1::createBarChart(int valueCount) const
 	return chart;
 }
 
-QChart* Concept1::createSplineChart() const
+QChart* StatisticsWindow::createSplineChart() const
 {
 	QChart *chart = new QChart();
 	chart->setTitle("Spline chart");
@@ -217,7 +217,7 @@ QChart* Concept1::createSplineChart() const
 	return chart;
 }
 
-QChart* Concept1::createScatterChart() const
+QChart* StatisticsWindow::createScatterChart() const
 {
 	// scatter chart
 	QChart *chart = new QChart();
@@ -243,8 +243,25 @@ QChart* Concept1::createScatterChart() const
 	return chart;
 }
 
-void Concept1::onVisibilityChanged(bool visible)
+void StatisticsWindow::onNewDataLoadedEnd()
 {
-	this->setVisible(visible);
+	resetViews();
+}
+
+void StatisticsWindow::showEvent(QShowEvent* e)
+{
+	Q_UNUSED(e)
+
+}
+
+void StatisticsWindow::hideEvent(QHideEvent* e)
+{
+	Q_UNUSED(e)
+}
+
+void StatisticsWindow::resetViews()
+{
+	m_MultiWidget->ResetCrosshair();
+	m_3DView->ResetView();
 }
 

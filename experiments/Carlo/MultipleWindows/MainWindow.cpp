@@ -64,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent)
 //		nodes1 = QmitkIOUtil::Load(QString("/usr/mitk-development/covid-gui/test-data/JJA10ZCU.nii"), *ds1);
 		nodes1 = mitk::IOUtil::Load(QString("/usr/mitk-development/covid-gui/test-data/Pic3D.nrrd").toStdString(), *ds1);
 //		nodes1 = mitk::IOUtil::Load(QString("/media/storage/carlo/Documents/mitk-data/Lung.nrrd").toStdString(), *ds1);
-		nodes2 = mitk::IOUtil::Load(QString("/usr/mitk-development/covid-gui/test-data/lungs.vtk").toStdString(), *ds2);
+//		nodes2 = mitk::IOUtil::Load(QString("/usr/mitk-development/covid-gui/test-data/lungs.vtk").toStdString(), *ds2);
 	}
 	catch (const mitk::Exception& e)
 	{
@@ -74,14 +74,18 @@ MainWindow::MainWindow(QWidget *parent)
 
 	setTrasnferFunction(nodes1);
 
-	QmitkRenderWindowWidget *renderWidget1 = new QmitkRenderWindowWidget(ui->left,QString("main"),ds2);
-	renderWidget1->GetRenderWindow()->GetRenderer()->SetMapperID(mitk::BaseRenderer::Standard3D);
-	renderWidget1->GetRenderWindow()->GetRenderer()->GetVtkRenderer()->ResetCamera();
-	ui->leftLayout->addWidget(renderWidget1);
-
 	auto wmulti = new wMulti(this);
 	wmulti->setData(ds1);
 	ui->rightLayout->addWidget(wmulti);
+
+	ds2->Add((*nodes1)[0]);
+
+	QmitkRenderWindowWidget *renderWidget1 = new QmitkRenderWindowWidget(ui->left,QString("main"),ds2);
+	renderWidget1->GetRenderWindow()->SetLayoutIndex(mitk::BaseRenderer::ViewDirection::AXIAL);
+	renderWidget1->GetSliceNavigationController()->SetDefaultViewDirection(mitk::SliceNavigationController::Axial);
+	renderWidget1->GetRenderWindow()->GetRenderer()->SetMapperID(mitk::BaseRenderer::Standard2D);
+	renderWidget1->RequestUpdate();
+	ui->leftLayout->addWidget(renderWidget1);
 }
 
 MainWindow::~MainWindow()

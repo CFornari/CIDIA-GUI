@@ -12,11 +12,15 @@ Concept2::Concept2(QWidget *parent)
 	ui->setupUi(this);
 
 	m_AppData = AppDataManager::GetInstance();
+	m_AppData->createDataStorageFromMaster("Multi");
+	auto dataStorage = m_AppData->getDataStorageByName("Multi");
 
 	m_MultiWidget = new QmitkStdMultiWidget(this);
-	m_MultiWidget->SetDataStorage(m_AppData->getDataStorage());
+	m_MultiWidget->SetDataStorage(dataStorage);
 	m_MultiWidget->InitializeMultiWidget();
 	m_MultiWidget->ResetCrosshair();
+	m_MultiWidget->AddPlanesToDataStorage();
+
 	ui->MultiWidgetLayout->addWidget(m_MultiWidget);
 }
 
@@ -26,8 +30,13 @@ Concept2::~Concept2()
 	delete ui;
 }
 
-void Concept2::onVisibilityChanged(bool visible)
+void Concept2::showEvent(QShowEvent* e)
 {
-	this->setVisible(visible);
+
+}
+
+void Concept2::hideEvent(QHideEvent* e)
+{
+
 }
 

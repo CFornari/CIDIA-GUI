@@ -5,6 +5,8 @@
 
 class QmitkStdMultiWidget;
 class QmitkMovieMakerView;
+class QRenderWidget;
+class Qmitk2DRenderWidget;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,9 +20,19 @@ public:
 	MainWindow(QWidget *parent = nullptr);
 	~MainWindow();
 
+public slots:
+	void onRenderWindowChanged(int renderWindow);
+
 private:
+	virtual void showEvent(QShowEvent *e) override;
+
 	Ui::MainWindow *ui;
-	QmitkStdMultiWidget *m_MultiWidget;
+
 	QmitkMovieMakerView *m_View;
+
+	Qmitk2DRenderWidget *viewAxial;
+	QRenderWidget *viewSagittal;
+	QRenderWidget *viewCoronal;
+	QRenderWidget *view3D;
 };
 #endif // MAINWINDOW_H

@@ -26,6 +26,7 @@ find_package(OpenMP REQUIRED)
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/../../../modules/MovieMaker/" build/)
+add_subdirectory("${CMAKE_SOURCE_DIR}/../../../modules/RenderWindows/" build2/)
 
 add_executable(${PROJECT_NAME}
 		main.cpp
@@ -40,10 +41,12 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
 		MitkQtWidgetsExt
 		Qt5::Widgets
 		MovieMaker
+		RenderWindows
 		)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
 		"${CMAKE_SOURCE_DIR}/../../../modules/MovieMaker/"
+		"${CMAKE_SOURCE_DIR}/../../../modules/RenderWindows/"
 		)
 
 #message(PATH1 "${CMAKE_CURRENT_SOURCE_DIR}/../../modules/ThumbnailListWidget/")

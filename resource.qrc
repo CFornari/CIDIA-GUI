@@ -15,5 +15,7 @@
         <file>resource/012-browser.svg</file>
         <file>resource/013-folder.svg</file>
         <file>resource/014-save.svg</file>
+        <file>resource/test.svg</file>
+        <file>resource/video-player.svg</file>
     </qresource>
 </RCC>

@@ -26,6 +26,10 @@ public:
   ~QmitkAnimationWidget() override;
 
   virtual void SetAnimationItem(QmitkAnimationItem* animationItem) = 0;
+
+signals:
+	void renderWindowChanged(int renderWindow);
+
 };
 
 #endif

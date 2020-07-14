@@ -13,6 +13,8 @@ found in the LICENSE file.
 #include "QmitkMovieMakerView.h"
 #include <ui_QmitkMovieMakerView.h>
 
+#include "QmitkAnimationWidget.h"
+
 #include "QmitkAnimationItemDelegate.h"
 #include "QmitkOrbitAnimationItem.h"
 #include "QmitkOrbitAnimationWidget.h"
@@ -52,11 +54,6 @@ namespace
 
   QString GetFFmpegPath()
   {
-//    auto preferences = berry::Platform::GetPreferencesService()->GetSystemPreferences()->Node("/org.mitk.gui.qt.ext.externalprograms");
-
-//    return preferences.IsNotNull()
-//      ? preferences->Get("ffmpeg", "")
-//      : "";
 		return QString("/usr/bin/ffmpeg");
   }
 
@@ -82,6 +79,8 @@ QmitkMovieMakerView::QmitkMovieMakerView(QWidget* parent)
     m_NumFrames(0),
     m_CurrentFrame(0)
 {
+	Q_INIT_RESOURCE(moviemaker); // name of qrc file
+
 	m_FFmpegWriter = new QmitkFFmpegWriter(this);
 
 	m_Ui->setupUi(this);
@@ -114,6 +113,9 @@ void QmitkMovieMakerView::InitializeAnimationWidgets()
   }
 
   this->ConnectAnimationWidgets();
+
+	connect(m_AnimationWidgets["Slice"], &QmitkSliceAnimationWidget::renderWindowChanged,
+			this, &QmitkMovieMakerView::renderWindowChanged);
 }
 
 void QmitkMovieMakerView::InitializeAnimationTreeViewWidgets()
@@ -149,10 +151,10 @@ void QmitkMovieMakerView::InitializeAddAnimationMenu()
 void QmitkMovieMakerView::InitializeRecordMenu()
 {
   std::array<std::pair<QString, QString>, 4> renderWindows = {
-    std::make_pair(QStringLiteral("Axial"), QStringLiteral("stdmulti.widget0")),
-    std::make_pair(QStringLiteral("Sagittal"), QStringLiteral("stdmulti.widget1")),
-    std::make_pair(QStringLiteral("Coronal"), QStringLiteral("stdmulti.widget2")),
-    std::make_pair(QStringLiteral("3D"), QStringLiteral("stdmulti.widget3"))
+		std::make_pair(QStringLiteral("Axial"), QStringLiteral("MovieMaker0")),
+		std::make_pair(QStringLiteral("Sagittal"), QStringLiteral("MovieMaker1")),
+		std::make_pair(QStringLiteral("Coronal"), QStringLiteral("MovieMaker2")),
+		std::make_pair(QStringLiteral("3D"), QStringLiteral("MovieMaker3"))
   };
 
   m_RecordMenu = new QMenu(m_Ui->recordButton);
@@ -252,17 +254,19 @@ void QmitkMovieMakerView::OnAddAnimationButtonClicked()
 
     m_AnimationModel->appendRow(QList<QStandardItem*>()
       << new QStandardItem(key)
-      << CreateDefaultAnimation(key));
+			<< CreateDefaultAnimation(key));
 
     m_Ui->playbackAndRecordingGroupBox->setEnabled(true);
   }
+
+	emit addAnimationButtonClicked();
 }
 
 void QmitkMovieMakerView::OnPlayButtonToggled(bool checked)
 {
   if (checked)
   {
-    m_Ui->playButton->setIcon(QIcon(":/org_mitk_icons/icons/tango/scalable/actions/media-playback-pause.svg"));
+		m_Ui->playButton->setIcon(QIcon(":/resource/pause.svg"));
     m_Ui->playButton->repaint();
 
     m_Timer->start(static_cast<int>(1000.0 / m_Ui->fpsSpinBox->value()));
@@ -271,7 +275,7 @@ void QmitkMovieMakerView::OnPlayButtonToggled(bool checked)
   {
     m_Timer->stop();
 
-    m_Ui->playButton->setIcon(QIcon(":/org_mitk_icons/icons/tango/scalable/actions/media-playback-start.svg"));
+		m_Ui->playButton->setIcon(QIcon(":/resource/play-button.svg"));
     m_Ui->playButton->repaint();
   }
 }
@@ -372,7 +376,10 @@ void QmitkMovieMakerView::OnRemoveAnimationButtonClicked()
   const QItemSelection selection = m_Ui->animationTreeView->selectionModel()->selection();
 
   if (!selection.isEmpty())
+	{
     m_AnimationModel->removeRow(selection[0].top());
+		emit removeAnimationButtonClicked();
+	}
 }
 
 void QmitkMovieMakerView::OnAnimationTreeViewRowsInserted(const QModelIndex& parent, int start, int)

@@ -3,9 +3,10 @@
 
 #include "AppDataManager.h"
 #include "DataManagerView.h"
-#include "Concept1.h"
+#include "StatisticsWindow.h"
 #include "Concept2.h"
-#include "Concept3.h"
+#include "VolumeVisualizationWindow.h"
+#include "MovieMakerWindow.h"
 #include "Utils.h"
 
 // Qmitk
@@ -31,7 +32,6 @@
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent),
 		ui(new Ui::MainWindow)
-//		m_FirstImage(mitk::Image::New())
 {
 	ui->setupUi(this);
 
@@ -40,12 +40,6 @@ MainWindow::MainWindow(QWidget *parent)
 	initDataManagerView();
 	initShadows();
 	initViews();
-
-	// Needs to be the last one call from all init methods.
-	initConnections();
-
-	showConcept1();
-	emit viewConcept1VisibilityChanged(false);
 }
 
 MainWindow::~MainWindow()
@@ -71,22 +65,17 @@ void MainWindow::initShadows()
 
 void MainWindow::initViews()
 {
-	m_Concept1 = new Concept1(ui->windowView);
+	m_Concept1 = new StatisticsWindow(ui->windowView);
 	ui->windowViewLayout->addWidget(m_Concept1);
 
 	m_Concept2 = new Concept2(ui->windowView);
 	ui->windowViewLayout->addWidget(m_Concept2);
 
-	m_Concept3 = new Concept3(ui->windowView);
+	m_Concept3 = new VolumeVisualizationWindow(ui->windowView);
 	ui->windowViewLayout->addWidget(m_Concept3);
-}
 
-void MainWindow::initConnections()
-{
-	connect(m_AppData, &AppDataManager::newDataLoadedEnd, m_Concept3, &Concept3::onDataLoaded);
-	connect(this, &MainWindow::viewConcept1VisibilityChanged, m_Concept1, &Concept1::onVisibilityChanged);
-	connect(this, &MainWindow::viewConcept2VisibilityChanged, m_Concept2, &Concept2::onVisibilityChanged);
-	connect(this, &MainWindow::viewConcept3VisibilityChanged, m_Concept3, &Concept3::onVisibilityChanged);
+	m_Concept4 = new MovieMakerWindow(ui->windowView);
+	ui->windowViewLayout->addWidget(m_Concept4);
 }
 
 void MainWindow::addBorderShadowGloomEffect(QWidget* widget)
@@ -100,29 +89,34 @@ void MainWindow::addBorderShadowGloomEffect(QWidget* widget)
 
 void MainWindow::showConcept1()
 {
-	emit viewConcept1VisibilityChanged(true);
-	emit viewConcept2VisibilityChanged(false);
-	emit viewConcept3VisibilityChanged(false);
-
-//	mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+	m_Concept1->show();
+	m_Concept2->hide();
+	m_Concept3->hide();
+	m_Concept4->hide();
 }
 
 void MainWindow::showConcept2()
 {
-	emit viewConcept1VisibilityChanged(false);
-	emit viewConcept2VisibilityChanged(true);
-	emit viewConcept3VisibilityChanged(false);
-
-//	mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+	m_Concept1->hide();
+	m_Concept2->show();
+	m_Concept3->hide();
+	m_Concept4->hide();
 }
 
 void MainWindow::showConcept3()
 {
-	emit viewConcept1VisibilityChanged(false);
-	emit viewConcept2VisibilityChanged(false);
-	emit viewConcept3VisibilityChanged(true);
+	m_Concept1->hide();
+	m_Concept2->hide();
+	m_Concept3->show();
+	m_Concept4->hide();
+}
 
-//	mitk::RenderingManager::GetInstance()->RequestUpdateAll();
+void MainWindow::showConcept4()
+{
+	m_Concept1->hide();
+	m_Concept2->hide();
+	m_Concept3->hide();
+	m_Concept4->show();
 }
 
 void MainWindow::openFileDialog()
@@ -132,6 +126,10 @@ void MainWindow::openFileDialog()
 		QFileDialog dialog(this, tr("Open Image"), directory);
 		dialog.setAcceptMode(QFileDialog::AcceptOpen);
 		dialog.setFileMode(QFileDialog::ExistingFile);
+
+		Widgets::MoveCenter(&dialog);
+		dialog.raise();
+		dialog.show();
 
 		if (dialog.exec() == QDialog::Accepted)
 			m_AppData->loadFile(dialog.selectedFiles().constFirst());
@@ -149,7 +147,7 @@ void MainWindow::showDataManager()
 {
 	//	Create animation
 	QPropertyAnimation *animation = new QPropertyAnimation(m_DataManagerView, "geometry");
-	animation->setDuration(1000);
+	animation->setDuration(500);
 	animation->setStartValue(m_DataManagerHidePosition);
 	animation->setEndValue(m_DataManagerShowPosition);
 	animation->start();
@@ -159,11 +157,15 @@ void MainWindow::hideDataManager()
 {
 	//	Create animation
 	QPropertyAnimation *animation = new QPropertyAnimation(m_DataManagerView, "geometry");
-	animation->setDuration(1000);
+	animation->setDuration(500);
 	animation->setStartValue(m_DataManagerShowPosition);
 	animation->setEndValue(m_DataManagerHidePosition);
 	animation->start();
 }
 
+void MainWindow::showEvent(QShowEvent *e)
+{
+	Q_UNUSED(e)
 
-
+	showConcept1();
+}

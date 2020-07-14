@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resource/minus.svg</file>
+        <file>resource/pause.svg</file>
+        <file>resource/play-button.svg</file>
+        <file>resource/plus.svg</file>
+        <file>resource/record.svg</file>
+        <file>resource/stop-square-filled-button.svg</file>
+        <file>resource/up_arrow.svg</file>
+        <file>resource/down_arrow.svg</file>
+    </qresource>
+</RCC>

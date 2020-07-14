@@ -9,14 +9,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>320</width>
-    <height>640</height>
+    <width>1067</width>
+    <height>222</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Movie Maker</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QHBoxLayout" name="horizontalLayout_2">
    <item>
     <layout class="QGridLayout" name="animationTreeViewLayout">
      <item row="0" column="3">
@@ -28,8 +28,8 @@
         <string>Move animation up</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../org.mitk.gui.qt.ext/resources/org_mitk_icons.qrc">
-         <normaloff>:/org_mitk_icons/icons/tango/scalable/actions/go-up.svg</normaloff>:/org_mitk_icons/icons/tango/scalable/actions/go-up.svg</iconset>
+        <iconset resource="moviemaker.qrc">
+         <normaloff>:/resource/up_arrow.svg</normaloff>:/resource/up_arrow.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -51,8 +51,8 @@
         <string>Move animation down</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../org.mitk.gui.qt.ext/resources/org_mitk_icons.qrc">
-         <normaloff>:/org_mitk_icons/icons/tango/scalable/actions/go-down.svg</normaloff>:/org_mitk_icons/icons/tango/scalable/actions/go-down.svg</iconset>
+        <iconset resource="moviemaker.qrc">
+         <normaloff>:/resource/down_arrow.svg</normaloff>:/resource/down_arrow.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -71,8 +71,8 @@
         <string>Add animation</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../org.mitk.gui.qt.ext/resources/org_mitk_icons.qrc">
-         <normaloff>:/org_mitk_icons/icons/tango/scalable/actions/list-add.svg</normaloff>:/org_mitk_icons/icons/tango/scalable/actions/list-add.svg</iconset>
+        <iconset resource="moviemaker.qrc">
+         <normaloff>:/resource/plus.svg</normaloff>:/resource/plus.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -94,8 +94,8 @@
         <string>Remove animation</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../org.mitk.gui.qt.ext/resources/org_mitk_icons.qrc">
-         <normaloff>:/org_mitk_icons/icons/tango/scalable/actions/list-remove.svg</normaloff>:/org_mitk_icons/icons/tango/scalable/actions/list-remove.svg</iconset>
+        <iconset resource="moviemaker.qrc">
+         <normaloff>:/resource/minus.svg</normaloff>:/resource/minus.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -174,7 +174,7 @@
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap resource="../../../org.mitk.gui.qt.ext/resources/org_mitk_icons.qrc">:/org_mitk_icons/icons/tango/scalable/actions/media-playback-start.svg</pixmap>
+         <pixmap>:/org_mitk_icons/icons/tango/scalable/actions/media-playback-start.svg</pixmap>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
@@ -241,7 +241,7 @@
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap resource="../../resources/QmitkMovieMaker.qrc">:/QmitkMovieMakerView/duration.svg</pixmap>
+         <pixmap>:/QmitkMovieMakerView/duration.svg</pixmap>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
@@ -310,7 +310,7 @@
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap resource="../../resources/QmitkMovieMaker.qrc">:/QmitkMovieMakerView/delay.svg</pixmap>
+         <pixmap>:/QmitkMovieMakerView/delay.svg</pixmap>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
@@ -365,6 +365,12 @@
      <property name="enabled">
       <bool>false</bool>
      </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="title">
       <string>Playback &amp;&amp; Recording</string>
      </property>
@@ -375,8 +381,9 @@
          <string>Play</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../org.mitk.gui.qt.ext/resources/org_mitk_icons.qrc">
-          <normaloff>:/org_mitk_icons/icons/tango/scalable/actions/media-playback-start.svg</normaloff>:/org_mitk_icons/icons/tango/scalable/actions/media-playback-start.svg</iconset>
+         <iconset resource="moviemaker.qrc">
+          <normaloff>:/resource/play-button.svg</normaloff>
+          <normalon>:/resource/pause.svg</normalon>:/resource/play-button.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -401,8 +408,8 @@
          <string>Stop</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../org.mitk.gui.qt.ext/resources/org_mitk_icons.qrc">
-          <normaloff>:/org_mitk_icons/icons/tango/scalable/actions/media-playback-stop.svg</normaloff>:/org_mitk_icons/icons/tango/scalable/actions/media-playback-stop.svg</iconset>
+         <iconset resource="moviemaker.qrc">
+          <normaloff>:/resource/stop-square-filled-button.svg</normaloff>:/resource/stop-square-filled-button.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -434,8 +441,8 @@
          <string>Record</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../org.mitk.gui.qt.ext/resources/org_mitk_icons.qrc">
-          <normaloff>:/org_mitk_icons/icons/tango/scalable/actions/media-record.svg</normaloff>:/org_mitk_icons/icons/tango/scalable/actions/media-record.svg</iconset>
+         <iconset resource="moviemaker.qrc">
+          <normaloff>:/resource/record.svg</normaloff>:/resource/record.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -470,19 +477,6 @@
      </layout>
     </widget>
    </item>
-   <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>227</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
   </layout>
  </widget>
  <tabstops>
@@ -500,8 +494,7 @@
   <tabstop>fpsSpinBox</tabstop>
  </tabstops>
  <resources>
-  <include location="../../../org.mitk.gui.qt.ext/resources/org_mitk_icons.qrc"/>
-  <include location="../../resources/QmitkMovieMaker.qrc"/>
+  <include location="moviemaker.qrc"/>
  </resources>
  <connections/>
 </ui>

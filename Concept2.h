@@ -19,9 +19,11 @@ public:
 	~Concept2();
 
 public slots:
-	void onVisibilityChanged(bool visible);
 
 private:
+	virtual void showEvent(QShowEvent *e) override;
+	virtual void hideEvent(QHideEvent *e) override;
+
 	Ui::Concept2 *ui;
 	QmitkStdMultiWidget *m_MultiWidget;
 

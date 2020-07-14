@@ -40,7 +40,7 @@ DataManagerView::DataManagerView(QWidget *parent) :
 	m_AppData = AppDataManager::GetInstance();
 
 	//# GUI
-	m_NodeTreeModel = new QmitkDataStorageTreeModel(m_AppData->getDataStorage(), true, this);
+	m_NodeTreeModel = new QmitkDataStorageTreeModel(m_AppData->getDataStorageMaster(), true, this);
 	// Prepare filters
 	m_HelperObjectFilterPredicate = mitk::NodePredicateOr::New(
 																		mitk::NodePredicateProperty::New("helper object", mitk::BoolProperty::New(true)),
@@ -92,13 +92,13 @@ DataManagerView::~DataManagerView()
 
 void DataManagerView::OnNodeVisibilityChanged()
 {
-	auto selectedNodes = m_AppData->getDataStorage()->GetSubset(mitk::NodePredicateProperty::New("selected", mitk::BoolProperty::New(true)));
+	auto selectedNodes = m_AppData->getDataStorageMaster()->GetSubset(mitk::NodePredicateProperty::New("selected", mitk::BoolProperty::New(true)));
 	for (auto node : *selectedNodes)
 	{
 		if (node.IsNotNull())
 		{
 			std::cout << node->GetName() << endl;
-			node->SetVisibility(true);
+//			node->SetVisibility(true);
 //			node->SetSelected(false);
 		}
 	}
@@ -158,6 +158,10 @@ void DataManagerView::NodeSelectionChanged(const QItemSelection& selection, cons
 						std::cout << "Selected: " << node->GetName() << endl;
 //						std::cout << "Name from index: " << m_NodeTreeModel->GetNode(treeIndex)->GetName() << endl;
 						node->SetSelected(true);
+					}
+					else
+					{
+						node->SetSelected(false);
 					}
 				}
 			}

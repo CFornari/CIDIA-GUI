@@ -68,7 +68,7 @@ void QmitkSliceAnimationItem::SetReverse(bool reverse)
 
 void QmitkSliceAnimationItem::Animate(double s)
 {
-  const QString renderWindowName = QString("stdmulti.widget%1").arg(this->GetRenderWindow());
+	const QString renderWindowName = QString("MovieMaker%1").arg(this->GetRenderWindow());
   vtkRenderWindow* renderWindow = mitk::BaseRenderer::GetRenderWindowByName(renderWindowName.toStdString());
 
   if (renderWindow == nullptr)

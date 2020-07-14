@@ -10,6 +10,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set (CMAKE_AUTOMOC ON) # enables linker to qt moc headers
 set (CMAKE_AUTOUIC ON) # enables linker to .ui files
 set (CMAKE_AUTORCC ON) # enables linker to .qrc files
+
 set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_COLOR_MAKEFILE   ON)
 
@@ -33,6 +34,8 @@ add_subdirectory(modules/DarkStyle)
 add_subdirectory(modules/VolumeVisualizationView)
 add_subdirectory(modules/ThumbnailListView)
 add_subdirectory(modules/DataManagerView)
+add_subdirectory(modules/MovieMaker)
+add_subdirectory(modules/RenderWindows)
 ###
 
 set(cpp_files
@@ -41,9 +44,10 @@ set(cpp_files
 		# Database / file managment
 		Utils.cpp
 		# Interface
-		Concept1.cpp
+		StatisticsWindow.cpp
 		Concept2.cpp
-		Concept3.cpp
+		VolumeVisualizationWindow.cpp
+		MovieMakerWindow.cpp
 		)
 
 set(header_files
@@ -51,16 +55,18 @@ set(header_files
 		# Database / file managment
 		Utils.h
 		# Interface
-		Concept1.h
+		StatisticsWindow.h
 		Concept2.h
-		Concept3.h
+		VolumeVisualizationWindow.h
+		MovieMakerWindow.h
 		)
 
 set(ui_files
 		MainWindow.ui
-		Concept1.ui
+		StatisticsWindow.ui
 		Concept2.ui
-		Concept3.ui
+		VolumeVisualizationWindow.ui
+		MovieMakerWindow.ui
 		)
 
 set(qrc_files
@@ -81,6 +87,8 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
 	DarkStyle
 	VolumeVisualizationView
 	DataManagerView
+	MovieMaker
+	RenderWindows
 )
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_14)
@@ -90,4 +98,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 		"${CMAKE_SOURCE_DIR}/modules/DarkStyle"
 		"${CMAKE_SOURCE_DIR}/modules/VolumeVisualizationView"
 		"${CMAKE_SOURCE_DIR}/modules/DataManagerView"
+		"${CMAKE_SOURCE_DIR}/modules/MovieMaker"
+		"${CMAKE_SOURCE_DIR}/modules/RenderWindows"
 		)

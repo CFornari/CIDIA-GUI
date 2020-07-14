@@ -43,6 +43,11 @@ public:
 
 	void SetFocus();
 
+signals:
+	void renderWindowChanged(int renderWindow);
+	void addAnimationButtonClicked();
+	void removeAnimationButtonClicked();
+
 private slots:
   void OnMoveAnimationUpButtonClicked();
   void OnMoveAnimationDownButtonClicked();

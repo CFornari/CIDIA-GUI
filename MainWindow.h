@@ -11,9 +11,10 @@
 
 class AppDataManager;
 class DataManagerView;
-class Concept1;
+class StatisticsWindow;
 class Concept2;
-class Concept3;
+class VolumeVisualizationWindow;
+class MovieMakerWindow;
 
 class QRect;
 
@@ -32,26 +33,21 @@ public slots:
 	void showConcept1();
 	void showConcept2();
 	void showConcept3();
+	void showConcept4();
 	void openFileDialog();
 
 	void onDataManagerButtonToggled(bool state);
 	void showDataManager();
 	void hideDataManager();
 
-signals:
-	void viewConcept1VisibilityChanged(bool visible);
-	void viewConcept2VisibilityChanged(bool visible);
-	void viewConcept3VisibilityChanged(bool visible);
-
 protected:
 	void initDataManagerView();
 	void initShadows();
 	void initViews();
-	void initConnections();
 
 private:
-//	mitk::Image::Pointer m_FirstImage;
 	void addBorderShadowGloomEffect(QWidget *widget);
+	virtual void showEvent(QShowEvent *e) override;
 
 	Ui::MainWindow *ui;
 
@@ -61,8 +57,9 @@ private:
 	QRect m_DataManagerShowPosition;
 	QRect m_DataManagerHidePosition;
 
-	Concept1 *m_Concept1;
+	StatisticsWindow *m_Concept1;
 	Concept2 *m_Concept2;
-	Concept3 *m_Concept3;
+	VolumeVisualizationWindow *m_Concept3;
+	MovieMakerWindow *m_Concept4;
 };
 #endif // MAINWINDOW_H
