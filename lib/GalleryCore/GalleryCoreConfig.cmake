@@ -46,7 +46,7 @@ add_library(GalleryCore SHARED IMPORTED)
 
 set_target_properties(GalleryCore PROPERTIES
   INTERFACE_COMPILE_DEFINITIONS "cxx_std_14"
-  INTERFACE_INCLUDE_DIRECTORIES "/usr/mitk-development/covid-gui/lib/GalleryCore/include"
+  INTERFACE_INCLUDE_DIRECTORIES "/usr/mitk-development/CIDIA-GUI/lib/GalleryCore/include"
 )
 
 # Import target "GalleryCore" for configuration "Debug"
