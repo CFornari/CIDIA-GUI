@@ -4,8 +4,11 @@ This is the code to the graphical interface used in the CIDIA project promoted b
 
 **Note:** This is a work in progress, right now, features are constantly changing names and capabilities.
 
-## The Medical Imaging Interaction Toolkit (MITK) 
-All features are heavily dependent on the MITK project.
+## 3rd Party Libraries
+All features are heavily dependent on the MITK project and Qt 5.
+
+    MITK: 2018.04.99
+    Qt:   5.12.8  
 
 ## Modules 
 The features of this application are divided as modules. 
