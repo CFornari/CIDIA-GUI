@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.17 FATAL_ERROR)
 
-project(covid-gui-desktop LANGUAGES CXX)
+project(CIDIA-GUI LANGUAGES CXX)
 
 #set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 #set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
@@ -16,12 +16,12 @@ set(CMAKE_COLOR_MAKEFILE   ON)
 
 set(MITK_SUPERBUILD_DIR "/usr/mitk-build")
 #set(MITK_SUPERBUILD_DIR "/media/storage/carlo/Documents/MITK/mitk-superbuild-debug")
-set(QT_PATH "/home/pop_os")
+set(QT_PATH "/home/pop_os/Qt/5.12.8")
 
 set(CMAKE_PREFIX_PATH
 		"${MITK_SUPERBUILD_DIR}/MITK-build/"
 		"${MITK_SUPERBUILD_DIR}/ep/src/VTK/CMake/"
-		"${QT_PATH}/Qt/5.12.8/gcc_64/lib/cmake/Qt5/"
+		"${QT_PATH}/gcc_64/lib/cmake/Qt5/"
 		)
 
 find_package(MITK CONFIG REQUIRED)
@@ -32,7 +32,7 @@ find_package(Qt5 5.12 COMPONENTS Widgets Charts Svg REQUIRED)
 add_subdirectory(modules/AppDataManager)
 add_subdirectory(modules/DarkStyle)
 add_subdirectory(modules/VolumeVisualizationView)
-add_subdirectory(modules/ThumbnailListView)
+#add_subdirectory(modules/ThumbnailListView)
 add_subdirectory(modules/DataManagerView)
 add_subdirectory(modules/MovieMaker)
 add_subdirectory(modules/RenderWindows)

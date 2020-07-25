@@ -30,26 +30,25 @@ class QmitkDataSelectionWidget : public QWidget
   Q_OBJECT
 
 public:
-  enum Predicate
+  enum PredicateType
   {
     ImagePredicate,
+    MaskPredicate,
     SegmentationPredicate,
-    SurfacePredicate,
-    ImageAndSegmentationPredicate,
-    ContourModelPredicate
+    SurfacePredicate
   };
 
   explicit QmitkDataSelectionWidget(QWidget* parent = nullptr);
   ~QmitkDataSelectionWidget() override;
 
-  unsigned int AddDataSelection(Predicate predicate);
+  unsigned int AddDataSelection(PredicateType predicate);
   unsigned int AddDataSelection(mitk::NodePredicateBase* predicate = nullptr);
-  unsigned int AddDataSelection(const QString &labelText, const QString &info, const QString &popupTitel, const QString &popupHint, Predicate predicate);
+  unsigned int AddDataSelection(const QString &labelText, const QString &info, const QString &popupTitel, const QString &popupHint, PredicateType predicate);
   unsigned int AddDataSelection(const QString &labelText, const QString &info, const QString &popupTitel, const QString &popupHint, mitk::NodePredicateBase* predicate = nullptr);
 
   mitk::DataStorage::Pointer GetDataStorage() const;
   mitk::DataNode::Pointer GetSelection(unsigned int index);
-  void SetPredicate(unsigned int index, Predicate predicate);
+  void SetPredicate(unsigned int index, PredicateType predicate);
   void SetPredicate(unsigned int index, mitk::NodePredicateBase* predicate);
   void SetHelpText(const QString& text);
 

@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/segmentation">
+        <file>resources/NewLabel_48x48.png</file>
+        <file>resources/NewSegmentationSession_48x48.png</file>
+    </qresource>
+</RCC>

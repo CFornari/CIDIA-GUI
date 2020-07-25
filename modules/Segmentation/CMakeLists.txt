@@ -26,21 +26,45 @@ find_package(Qt5 COMPONENTS Widgets Charts REQUIRED)
 
 
 set(cpp_files
-		QmitkSegmentationView.cpp
-		QmitkDataSelectionWidget.cpp
+#		QmitkAutocropAction.cpp
+#		QmitkConvertMaskToLabelAction.cpp
+#		QmitkConvertSurfaceToLabelAction.cpp
+#		QmitkConvertToMultiLabelSegmentationAction.cpp
+#		QmitkCreateMultiLabelPresetAction.cpp
+#		QmitkCreateMultiLabelSegmentationAction.cpp
+#		QmitkLoadMultiLabelPresetAction.cpp
+		QmitkMultiLabelSegmentationView.cpp
+#		QmitkSingleNodeSelectionWidget.cpp
+#		QmitkNodeSelectionButton.cpp
+#		QmitkNodeSelectionDialog.cpp
+#		QmitkNodeSelectionPreferenceHelper.cpp
+#		QmitkThresholdAction.cpp
 		)
 
 set(header_files
-		QmitkSegmentationView.h
-		QmitkDataSelectionWidget.h
+#		QmitkAutocropAction.h
+#		QmitkConvertMaskToLabelAction.h
+#		QmitkConvertSurfaceToLabelAction.h
+#		QmitkConvertToMultiLabelSegmentationAction.h
+#		QmitkCreateMultiLabelPresetAction.h
+#		QmitkCreateMultiLabelSegmentationAction.h
+#		QmitkLoadMultiLabelPresetAction.h
+		QmitkMultiLabelSegmentationView.h
+#		QmitkSingleNodeSelectionWidget.h
+#		QmitkNodeSelectionButton.h
+#		QmitkNodeSelectionDialog.h
+#		QmitkNodeSelectionPreferenceHelper.h
+#		QmitkThresholdAction.h
 		)
 
 set(ui_files
-		QmitkSegmentationControls.ui
-		QmitkDataSelectionWidgetControls.ui
+		QmitkMultiLabelSegmentationControls.ui
+#		QmitkSingleNodeSelectionWidget.ui
+#		QmitkNodeSelectionDialog.ui
 		)
 
 set(qrc_files
+		segmentation.qrc
 		)
 
 add_library(${PROJECT_NAME} STATIC ${cpp_files} ${header_files} ${ui_files} ${qrc_files})
@@ -50,6 +74,25 @@ target_compile_definitions(${PROJECT_NAME} PUBLIC cxx_std_14)
 # Required on Unix OS family to be able to be linked into shared libraries.
 #set_target_properties(${PROJECT_NAME} PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
+
+set(AppDataManager_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../AppDataManager/")
+
+###
+# Checks whether this project is the main one or a subdirectory.
+###
+if(CMAKE_SOURCE_DIR STREQUAL PROJECT_SOURCE_DIR)
+		# I am top-level project.
+		add_subdirectory(${AppDataManager_PATH} build/)
+else()
+		# I am called from other project with add_subdirectory().
+
+		# Required on Unix OS family to be able to be linked into shared libraries.
+		set_target_properties(${PROJECT_NAME} PROPERTIES POSITION_INDEPENDENT_CODE ON)
+endif()
+###
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${AppDataManager_PATH})
+
 target_link_libraries(${PROJECT_NAME} PRIVATE
 		MitkCore
 		MitkQtWidgetsExt
@@ -57,4 +100,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 		MitkSegmentationUI
 		CTKWidgets
 		Qt5::Widgets
+		AppDataManager
 		)
+

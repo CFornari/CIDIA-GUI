@@ -7,9 +7,12 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
+if(NOT DEFINED QT_PATH)
+		set(QT_PATH "/home/pop_os/Qt/5.12.8")
+endif()
+
 set(CMAKE_PREFIX_PATH
-		"${CMAKE_PREFIX_PATH}"
-		"/home/pop_os/Qt/5.12.8/gcc_64/lib/cmake/Qt5/"
+		"${QT_PATH}/gcc_64/lib/cmake/Qt5/"
 		)
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)

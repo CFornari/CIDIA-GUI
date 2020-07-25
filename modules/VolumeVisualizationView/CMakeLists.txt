@@ -11,14 +11,20 @@ set (CMAKE_AUTORCC ON) # enable link to qrc
 set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_COLOR_MAKEFILE   ON)
 
-set(MITK_SUPERBUILD_DIR "/usr/mitk-build")
-#set(MITK_SUPERBUILD_DIR "/media/storage/carlo/Documents/MITK/mitk-superbuild-debug")
+if(NOT DEFINED MITK_SUPERBUILD_DIR)
+		set(MITK_SUPERBUILD_DIR "/usr/mitk-build")
+endif()
+
+if(NOT DEFINED QT_PATH)
+		set(QT_PATH "/home/pop_os/Qt/5.12.8")
+endif()
 
 set(CMAKE_PREFIX_PATH
 		"${MITK_SUPERBUILD_DIR}/MITK-build/"
 		"${MITK_SUPERBUILD_DIR}/ep/src/VTK/CMake/"
-		"/home/pop_os/Qt/5.12.8/gcc_64/lib/cmake/Qt5/"
+		"${QT_PATH}/gcc_64/lib/cmake/Qt5/"
 		)
+
 
 find_package(MITK CONFIG REQUIRED)
 find_package(OpenMP REQUIRED)
