@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 class QmitkStdMultiWidget;
+class QmitkMultiLabelSegmentationView;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,5 +22,7 @@ private:
 	Ui::MainWindow *ui;
 
 	QmitkStdMultiWidget *m_MultiWidget;
+	QmitkMultiLabelSegmentationView *m_View;
+
 };
 #endif // MAINWINDOW_H

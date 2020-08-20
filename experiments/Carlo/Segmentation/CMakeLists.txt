@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(Segmentation LANGUAGES CXX)
+project(SegmentationExp LANGUAGES CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -25,7 +25,7 @@ find_package(MITK CONFIG REQUIRED)
 find_package(OpenMP REQUIRED)
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
-add_subdirectory("${CMAKE_SOURCE_DIR}/../../../modules/RenderWindows/" build/)
+add_subdirectory("${CMAKE_SOURCE_DIR}/../../../modules/Segmentation/" build/)
 
 add_executable(${PROJECT_NAME}
 		main.cpp
@@ -38,11 +38,18 @@ add_executable(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME} PRIVATE
 		MitkCore
 		MitkQtWidgetsExt
+		MitkSegmentation
+
+		org_mitk_gui_common
+#		org_mitk_gui_qt_common
+#		org_blueberry_core_runtime
+#		org_blueberry_ui_qt
+
 		Qt5::Widgets
-		RenderWindows
+		MultiLabelSegmentation
 		)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
-		"${CMAKE_SOURCE_DIR}/../../../modules/RenderWindows/"
+		"${CMAKE_SOURCE_DIR}/../../../modules/Segmentation/"
 		)
 

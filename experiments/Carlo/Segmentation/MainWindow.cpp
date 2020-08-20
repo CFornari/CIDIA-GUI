@@ -4,7 +4,8 @@
 #include <mitkTransferFunctionProperty.h>
 #include <mitkDataInteractor.h>
 
-//#include "Qmitk3DRenderWidget.h"
+#include <QmitkMultiLabelSegmentationView.h>
+
 #include <QmitkStdMultiWidget.h>
 
 #include <mitkStandaloneDataStorage.h>
@@ -51,7 +52,7 @@ MainWindow::MainWindow(QWidget *parent)
 	try
 	{
 //		nodes1 = QmitkIOUtil::Load(QString("/usr/mitk-development/covid-gui/test-data/JJA10ZCU.nii"), *ds1);
-		nodes1 = mitk::IOUtil::Load(QString("/usr/mitk-development/covid-gui/test-data/Pic3D.nrrd").toStdString(), *ds1);
+		nodes1 = mitk::IOUtil::Load(QString("/usr/mitk-development/CIDIA-GUI/test-data/Pic3D.nrrd").toStdString(), *ds1);
 //		nodes1 = mitk::IOUtil::Load(QString("/media/storage/carlo/Documents/mitk-data/Lung.nrrd").toStdString(), *ds1);
 //		nodes2 = mitk::IOUtil::Load(QString("/usr/mitk-development/covid-gui/test-data/lungs.vtk").toStdString(), *ds2);
 	}
@@ -61,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent)
 		return;
 	}
 
-	setTrasnferFunction(nodes1);
+//	setTrasnferFunction(nodes1);
 
 	m_MultiWidget = new QmitkStdMultiWidget(this);
 	m_MultiWidget->SetDataStorage(ds1);
@@ -70,7 +71,10 @@ MainWindow::MainWindow(QWidget *parent)
 	m_MultiWidget->RequestUpdateAll();
 	m_MultiWidget->AddPlanesToDataStorage();
 
-	ui->horizontalLayout->addWidget(m_MultiWidget);
+	m_View = new QmitkMultiLabelSegmentationView(ui->scrollAreaWidgetContents_2, m_MultiWidget, ds1);
+
+	ui->horizontalLayout_2->addWidget(m_MultiWidget);
+//	ui->horizontalLayout_3->addWidget(m_View);
 }
 
 MainWindow::~MainWindow()

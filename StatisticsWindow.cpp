@@ -47,6 +47,8 @@ StatisticsWindow::StatisticsWindow(QWidget *parent)
 		m_dataTable(generateRandomData(m_listCount, m_valueMax, m_valueCount)),
 		ui(new Ui::StatisticsWindow)
 {
+	//	ui->widget_5->hide();
+//	ui->centerDisplay->hide();
 	ui->setupUi(this);
 
 	m_AppData = AppDataManager::GetInstance();
@@ -56,13 +58,13 @@ StatisticsWindow::StatisticsWindow(QWidget *parent)
 	m_AppData->createDataStorageFromMaster("3D_Statistics");
 	auto dataStorage2 = m_AppData->getDataStorageByName("3D_Statistics");
 
-	m_MultiWidget = new QmitkStdMultiWidget(this);
-	m_MultiWidget->SetDataStorage(dataStorage);
-	m_MultiWidget->InitializeMultiWidget();
-	m_MultiWidget->ResetCrosshair();
-	m_MultiWidget->AddPlanesToDataStorage();
-	m_MultiWidget->GetMultiWidgetLayoutManager()->SetLayoutDesign(QmitkMultiWidgetLayoutManager::LayoutDesign::ONLY_2D_VERTICAL);
-	ui->centerDisplay->layout()->addWidget(m_MultiWidget);
+//	m_MultiWidget = new QmitkStdMultiWidget(this);
+//	m_MultiWidget->SetDataStorage(dataStorage);
+//	m_MultiWidget->InitializeMultiWidget();
+//	m_MultiWidget->ResetCrosshair();
+//	m_MultiWidget->AddPlanesToDataStorage();
+//	m_MultiWidget->GetMultiWidgetLayoutManager()->SetLayoutDesign(QmitkMultiWidgetLayoutManager::LayoutDesign::ONLY_2D_VERTICAL);
+//	ui->centerDisplay->layout()->addWidget(m_MultiWidget);
 
 	m_3DView = new Qmitk3DRenderWidget(this, QString("3D_Statistics"));
 	m_3DView->SetDataStorage(dataStorage2);
@@ -70,33 +72,31 @@ StatisticsWindow::StatisticsWindow(QWidget *parent)
 
 	connect(m_AppData, &AppDataManager::newDataLoadedEnd, this, &StatisticsWindow::onNewDataLoadedEnd);
 
-	ui->widget_5->hide();
+	QChartView *chartView;
 
-//	QChartView *chartView;
+	//	chartView = new QChartView(createAreaChart());
+	//	m_ui->chartTab->layout()->addWidget(chartView);
+	//	m_charts << chartView;
 
-//	//	chartView = new QChartView(createAreaChart());
-//	//	m_ui->chartTab->layout()->addWidget(chartView);
-//	//	m_charts << chartView;
+	chartView = new QChartView(createBarChart(m_valueCount));
+	ui->chartTab->layout()->addWidget(chartView);
+	m_charts << chartView;
 
-//	chartView = new QChartView(createBarChart(m_valueCount));
-//	ui->chartTab->layout()->addWidget(chartView);
-//	m_charts << chartView;
+	chartView = new QChartView(createSplineChart());
+	ui->chartTab->layout()->addWidget(chartView);
+	m_charts << chartView;
 
-//	chartView = new QChartView(createSplineChart());
-//	ui->chartTab->layout()->addWidget(chartView);
-//	m_charts << chartView;
+	chartView = new QChartView(createScatterChart());
+	ui->chartTab->layout()->addWidget(chartView);
+	m_charts << chartView;
 
-//	chartView = new QChartView(createScatterChart());
-//	ui->chartTab->layout()->addWidget(chartView);
-//	m_charts << chartView;
-
-//	const auto charts = m_charts;
-//	for (QChartView *chartView : charts)
-//	{
-//		chartView->chart()->setTheme(QChart::ChartThemeDark);
-//		chartView->chart()->legend()->hide();
-//		chartView->setRenderHint(QPainter::Antialiasing, true);
-//	}
+	const auto charts = m_charts;
+	for (QChartView *chartView : charts)
+	{
+		chartView->chart()->setTheme(QChart::ChartThemeDark);
+		chartView->chart()->legend()->hide();
+		chartView->setRenderHint(QPainter::Antialiasing, true);
+	}
 }
 
 StatisticsWindow::~StatisticsWindow()
@@ -261,7 +261,7 @@ void StatisticsWindow::hideEvent(QHideEvent* e)
 
 void StatisticsWindow::resetViews()
 {
-	m_MultiWidget->ResetCrosshair();
+//	m_MultiWidget->ResetCrosshair();
 	m_3DView->ResetView();
 }
 

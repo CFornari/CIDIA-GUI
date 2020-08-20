@@ -1,5 +1,5 @@
-#ifndef CONCEPT4_H
-#define CONCEPT4_H
+#ifndef MOVIEMAKER_WINDOW_H
+#define MOVIEMAKER_WINDOW_H
 
 #include <QWidget>
 
@@ -44,4 +44,4 @@ private:
 	QmitkMovieMakerView *m_MovieView;
 };
 
-#endif // CONCEPT4_H
+#endif // MOVIEMAKER_WINDOW_H

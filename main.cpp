@@ -18,6 +18,6 @@ int main(int argc, char *argv[])
 	QmitkRegisterClasses();
 
 	MainWindow *mainWindow = new MainWindow;
-	mainWindow->showFullScreen();
+	mainWindow->show();
 	return a.exec();
 }

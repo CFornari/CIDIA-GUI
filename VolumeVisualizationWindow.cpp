@@ -6,7 +6,7 @@
 #include "VolumeVisualizationView.h"
 #include <Qmitk3DRenderWidget.h>
 
-#include <mitkTransferFunctionPropertySerializer.h>
+//#include <mitkTransferFunctionPropertySerializer.h>
 
 #include <mitkProperties.h>
 #include <mitkRenderingManager.h>

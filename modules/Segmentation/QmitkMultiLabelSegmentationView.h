@@ -17,12 +17,28 @@ See LICENSE.txt or http://www.mitk.org for details.
 #ifndef QmitkMultiLabelSegmentationView_h
 #define QmitkMultiLabelSegmentationView_h
 
-#include <mitkStandaloneDataStorage.h>
-#include "mitkSegmentationInteractor.h"
+#include <QWidget>
 
-#include "ui_QmitkMultiLabelSegmentationControls.h"
+#include <mitkStandaloneDataStorage.h>
+#include <mitkSegmentationInteractor.h>
+#include <mitkNodePredicateAnd.h>
+
+// blueberry
+#include <berryIBerryPreferences.h>
+#include <berryIWorkbenchPart.h>
 
 class QmitkRenderWindow;
+class QmitkStdMultiWidget;
+
+namespace us {
+	class ModuleResource;
+}
+
+namespace mitk {
+	class ToolManager;
+}
+
+namespace Ui { class QmitkMultiLabelSegmentationView; }
 
 /**
  * \ingroup ToolManagerEtAl
@@ -33,9 +49,11 @@ class QmitkMultiLabelSegmentationView : public QWidget
   Q_OBJECT
 
 public:
-  static const std::string VIEW_ID;
 
-	QmitkMultiLabelSegmentationView(QWidget *parent);
+	QmitkMultiLabelSegmentationView(QWidget *parent,
+																	QmitkStdMultiWidget* multiWidget,
+																	mitk::StandaloneDataStorage::Pointer dataStorage);
+
   virtual ~QmitkMultiLabelSegmentationView();
 
   typedef std::map<mitk::DataNode *, unsigned long> NodeTagMapType;
@@ -117,7 +135,7 @@ protected:
 	void NodeAdded(const mitk::DataNode* node);
 
   // reimplemented from QmitkAbstractView
-	void NodeRemoved(const mitk::DataNode* node);
+//	void NodeRemoved(const mitk::DataNode* node);
 
   void OnEstablishLabelSetConnection();
 
@@ -144,9 +162,9 @@ protected:
   /// \brief Checks if two images have the same size and geometry
   bool CheckForSameGeometry(const mitk::Image *image1, const mitk::Image *image2) const;
 
-  QString GetLastFileOpenPath();
+//  QString GetLastFileOpenPath();
 
-  void SetLastFileOpenPath(const QString &path);
+//  void SetLastFileOpenPath(const QString &path);
 
   /// \brief the Qt parent of our GUI (NOT of this object)
   QWidget *m_Parent;
@@ -154,9 +172,9 @@ protected:
 	mitk::DataStorage *m_DataStorage;
 
   /// \brief Qt GUI file
-  Ui::QmitkMultiLabelSegmentationControls m_Controls;
+	Ui::QmitkMultiLabelSegmentationView *m_Controls;
 
-  mitk::IRenderWindowPart *m_IRenderWindowPart;
+	QmitkStdMultiWidget *m_MultiWidget;
 
   mitk::ToolManager *m_ToolManager;
 

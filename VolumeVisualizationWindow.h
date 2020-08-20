@@ -1,5 +1,5 @@
-#ifndef CONCEPT3_H
-#define CONCEPT3_H
+#ifndef VOLUME_VISUALIZATION_WINDOW_H
+#define VOLUME_VISUALIZATION_WINDOW_H
 
 #include "Utils.h"
 
@@ -37,4 +37,4 @@ private:
 	VolumeVisualizationView *volumeVisualizationView;
 };
 
-#endif // CONCEPT3_H
+#endif // VOLUME_VISUALIZATION_WINDOW_H

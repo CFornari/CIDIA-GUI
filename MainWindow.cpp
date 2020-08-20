@@ -4,7 +4,7 @@
 #include "AppDataManager.h"
 #include "DataManagerView.h"
 #include "StatisticsWindow.h"
-#include "Concept2.h"
+#include "SegmentationWindow.h"
 #include "VolumeVisualizationWindow.h"
 #include "MovieMakerWindow.h"
 #include "Utils.h"
@@ -65,17 +65,17 @@ void MainWindow::initShadows()
 
 void MainWindow::initViews()
 {
-	m_Concept1 = new StatisticsWindow(ui->windowView);
-	ui->windowViewLayout->addWidget(m_Concept1);
+	m_StatisticsWindow = new StatisticsWindow(ui->windowView);
+	ui->windowViewLayout->addWidget(m_StatisticsWindow);
 
-	m_Concept2 = new Concept2(ui->windowView);
-	ui->windowViewLayout->addWidget(m_Concept2);
+	m_SegmentationWindow = new SegmentationWindow(ui->windowView);
+	ui->windowViewLayout->addWidget(m_SegmentationWindow);
 
-	m_Concept3 = new VolumeVisualizationWindow(ui->windowView);
-	ui->windowViewLayout->addWidget(m_Concept3);
+	m_VolumeVisualizationWindow = new VolumeVisualizationWindow(ui->windowView);
+	ui->windowViewLayout->addWidget(m_VolumeVisualizationWindow);
 
-	m_Concept4 = new MovieMakerWindow(ui->windowView);
-	ui->windowViewLayout->addWidget(m_Concept4);
+	m_MovieMakerWindow = new MovieMakerWindow(ui->windowView);
+	ui->windowViewLayout->addWidget(m_MovieMakerWindow);
 }
 
 void MainWindow::addBorderShadowGloomEffect(QWidget* widget)
@@ -89,34 +89,34 @@ void MainWindow::addBorderShadowGloomEffect(QWidget* widget)
 
 void MainWindow::showConcept1()
 {
-	m_Concept1->show();
-	m_Concept2->hide();
-	m_Concept3->hide();
-	m_Concept4->hide();
+	m_StatisticsWindow->show();
+	m_SegmentationWindow->hide();
+	m_VolumeVisualizationWindow->hide();
+	m_MovieMakerWindow->hide();
 }
 
 void MainWindow::showConcept2()
 {
-	m_Concept1->hide();
-	m_Concept2->show();
-	m_Concept3->hide();
-	m_Concept4->hide();
+	m_StatisticsWindow->hide();
+	m_SegmentationWindow->show();
+	m_VolumeVisualizationWindow->hide();
+	m_MovieMakerWindow->hide();
 }
 
 void MainWindow::showConcept3()
 {
-	m_Concept1->hide();
-	m_Concept2->hide();
-	m_Concept3->show();
-	m_Concept4->hide();
+	m_StatisticsWindow->hide();
+	m_SegmentationWindow->hide();
+	m_VolumeVisualizationWindow->show();
+	m_MovieMakerWindow->hide();
 }
 
 void MainWindow::showConcept4()
 {
-	m_Concept1->hide();
-	m_Concept2->hide();
-	m_Concept3->hide();
-	m_Concept4->show();
+	m_StatisticsWindow->hide();
+	m_SegmentationWindow->hide();
+	m_VolumeVisualizationWindow->hide();
+	m_MovieMakerWindow->show();
 }
 
 void MainWindow::openFileDialog()

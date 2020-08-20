@@ -1,5 +1,5 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef MAIN_WINDOW_H
+#define MAIN_WINDOW_H
 
 //#include "ThumbnailListWidgetInterface.h"
 
@@ -12,7 +12,7 @@
 class AppDataManager;
 class DataManagerView;
 class StatisticsWindow;
-class Concept2;
+class SegmentationWindow;
 class VolumeVisualizationWindow;
 class MovieMakerWindow;
 
@@ -57,9 +57,9 @@ private:
 	QRect m_DataManagerShowPosition;
 	QRect m_DataManagerHidePosition;
 
-	StatisticsWindow *m_Concept1;
-	Concept2 *m_Concept2;
-	VolumeVisualizationWindow *m_Concept3;
-	MovieMakerWindow *m_Concept4;
+	StatisticsWindow *m_StatisticsWindow;
+	SegmentationWindow *m_SegmentationWindow;
+	VolumeVisualizationWindow *m_VolumeVisualizationWindow;
+	MovieMakerWindow *m_MovieMakerWindow;
 };
-#endif // MAINWINDOW_H
+#endif // MAIN_WINDOW_H

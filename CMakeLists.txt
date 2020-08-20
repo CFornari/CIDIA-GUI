@@ -32,6 +32,7 @@ find_package(Qt5 5.12 COMPONENTS Widgets Charts Svg REQUIRED)
 add_subdirectory(modules/AppDataManager)
 add_subdirectory(modules/DarkStyle)
 add_subdirectory(modules/VolumeVisualizationView)
+add_subdirectory(modules/Segmentation)
 #add_subdirectory(modules/ThumbnailListView)
 add_subdirectory(modules/DataManagerView)
 add_subdirectory(modules/MovieMaker)
@@ -45,7 +46,7 @@ set(cpp_files
 		Utils.cpp
 		# Interface
 		StatisticsWindow.cpp
-		Concept2.cpp
+		SegmentationWindow.cpp
 		VolumeVisualizationWindow.cpp
 		MovieMakerWindow.cpp
 		)
@@ -56,7 +57,7 @@ set(header_files
 		Utils.h
 		# Interface
 		StatisticsWindow.h
-		Concept2.h
+		SegmentationWindow.h
 		VolumeVisualizationWindow.h
 		MovieMakerWindow.h
 		)
@@ -64,7 +65,7 @@ set(header_files
 set(ui_files
 		MainWindow.ui
 		StatisticsWindow.ui
-		Concept2.ui
+		SegmentationWindow.ui
 		VolumeVisualizationWindow.ui
 		MovieMakerWindow.ui
 		)
@@ -80,15 +81,21 @@ add_executable(${PROJECT_NAME} ${files})
 target_link_libraries(${PROJECT_NAME} PUBLIC
 	MitkCore
 	MitkQtWidgetsExt
+	MitkSegmentation
+
+	org_mitk_gui_common
+
 	Qt5::Widgets
 	Qt5::Charts
-	Qt5::Svg
+	Qt5::Svg	
+
 	AppDataManager
 	DarkStyle
 	VolumeVisualizationView
 	DataManagerView
 	MovieMaker
 	RenderWindows
+	MultiLabelSegmentation
 )
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_14)
@@ -100,4 +107,5 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 		"${CMAKE_SOURCE_DIR}/modules/DataManagerView"
 		"${CMAKE_SOURCE_DIR}/modules/MovieMaker"
 		"${CMAKE_SOURCE_DIR}/modules/RenderWindows"
+		"${CMAKE_SOURCE_DIR}/modules/Segmentation"
 		)

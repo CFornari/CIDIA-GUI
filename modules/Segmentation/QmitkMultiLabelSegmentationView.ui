@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>QmitkMultiLabelSegmentationControls</class>
- <widget class="QWidget" name="QmitkMultiLabelSegmentationControls">
+ <class>QmitkMultiLabelSegmentationView</class>
+ <widget class="QWidget" name="QmitkMultiLabelSegmentationView">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>459</width>
-    <height>844</height>
+    <width>426</width>
+    <height>502</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -16,25 +16,11 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>0</width>
-    <height>0</height>
-   </size>
-  </property>
-  <property name="font">
-   <font>
-    <family>MS Shell Dlg 2</family>
-    <pointsize>8</pointsize>
-    <weight>50</weight>
-    <italic>false</italic>
-    <bold>false</bold>
-    <underline>false</underline>
-    <strikeout>false</strikeout>
-   </font>
-  </property>
   <property name="windowTitle">
-   <string>QmitkSegmentation</string>
+   <string>Form</string>
+  </property>
+  <property name="toolTip">
+   <string/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
    <item>
@@ -75,7 +61,7 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset resource="../../resources/multilabelsegmentation.qrc">
+         <iconset>
           <normaloff>:/multilabelsegmentation/NewSegmentationSession_48x48.png</normaloff>:/multilabelsegmentation/NewSegmentationSession_48x48.png</iconset>
         </property>
         <property name="iconSize">
@@ -285,7 +271,7 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset resource="../../resources/multilabelsegmentation.qrc">
+         <iconset>
           <normaloff>:/multilabelsegmentation/NewLabel_48x48.png</normaloff>:/multilabelsegmentation/NewLabel_48x48.png</iconset>
         </property>
         <property name="iconSize">
@@ -705,14 +691,7 @@
     </spacer>
    </item>
   </layout>
-  <zorder>m_LabelSetWidget</zorder>
-  <zorder>groupBox_DataSelection</zorder>
-  <zorder>m_tw2DTools</zorder>
-  <zorder>m_gbInterpolation</zorder>
-  <zorder>groupBox_Layer</zorder>
-  <zorder>groupBox_Labels</zorder>
  </widget>
- <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
    <class>QmitkDataStorageComboBox</class>
@@ -748,13 +727,6 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <includes>
-  <include location="global">QmitkToolReferenceDataSelectionBox.h</include>
-  <include location="global">QmitkToolGUIArea.h</include>
-  <include location="global">QmitkToolSelectionBox.h</include>
- </includes>
- <resources>
-  <include location="../../resources/multilabelsegmentation.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

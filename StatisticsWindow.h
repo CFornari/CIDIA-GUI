@@ -1,5 +1,5 @@
-#ifndef CONCEPT_H
-#define CONCEPT_H
+#ifndef STATISTICS_WINDOW_H
+#define STATISTICS_WINDOW_H
 
 #include <QWidget>
 #include <QChartGlobal>
@@ -58,4 +58,4 @@ private:
 	AppDataManager *m_AppData;
 };
 
-#endif // CONCEPT_H
+#endif // STATISTICS_WINDOW_H
